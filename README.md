@@ -1,88 +1,178 @@
 # TestFlow API
 
-A TestFlow API È uma API REST para gest„o de testes de software, criada como projeto de portfÛlio pessoal. O projeto foi pensado para representar um cen·rio real de backend voltado ao controle de projetos de teste, casos de teste, execuÁıes e registro de falhas, com foco em organizaÁ„o, clareza e boas pr·ticas de desenvolvimento.
+A TestFlow API √© uma API REST para gest√£o de testes de software, criada como projeto de portf√≥lio pessoal. O projeto foi pensado para representar um cen√°rio real de backend voltado ao controle de projetos de teste, casos de teste, execu√ß√µes e registro de falhas, com foco em organiza√ß√£o, clareza e boas pr√°ticas de desenvolvimento.
 
-## DescriÁ„o
+## Descri√ß√£o
 
-A proposta da TestFlow API È oferecer uma base para operaÁıes comuns de gerenciamento de testes em projetos de software. A API permite cadastrar projetos, criar e atualizar casos de teste, registrar execuÁıes, controlar bugs encontrados e gerar resumos de execuÁ„o. AlÈm disso, conta com autenticaÁ„o via JWT e documentaÁ„o interativa com Swagger.
+A proposta da TestFlow API √© oferecer uma base para opera√ß√µes comuns de gerenciamento de testes em projetos de software. A API permite cadastrar projetos, criar e atualizar casos de teste, registrar execu√ß√µes, controlar bugs encontrados e gerar resumos de execu√ß√£o. Al√©m disso, conta com autentica√ß√£o via JWT e documenta√ß√£o interativa com Swagger.
 
 ## Objetivo
 
-O principal objetivo deste projeto È demonstrar habilidades de desenvolvimento backend por meio de uma aplicaÁ„o pr·tica e alinhada a necessidades do mercado. A API busca evidenciar conhecimento em arquitetura REST, autenticaÁ„o, organizaÁ„o de rotas, modelagem de recursos e documentaÁ„o de endpoints.
+O principal objetivo deste projeto √© demonstrar habilidades de desenvolvimento backend por meio de uma aplica√ß√£o pr√°tica e alinhada a necessidades do mercado. A API busca evidenciar conhecimento em arquitetura REST, autentica√ß√£o, organiza√ß√£o de rotas, modelagem de recursos e documenta√ß√£o de endpoints.
 
 ## Tecnologias Utilizadas
 
 - Node.js
 - JavaScript
+- Express
 - Arquitetura REST
-- JWT para autenticaÁ„o
-- Swagger para documentaÁ„o da API
+- JWT para autentica√ß√£o
+- Swagger para documenta√ß√£o da API
+- Nodemon para ambiente de desenvolvimento
 
-## AutenticaÁ„o com JWT
+## Autentica√ß√£o com JWT
 
-A autenticaÁ„o da API È baseada em JSON Web Token (JWT). ApÛs realizar o login com sucesso, o cliente recebe um token que deve ser enviado nas requisiÁıes autenticadas por meio do cabeÁalho `Authorization`:
+A autentica√ß√£o da API √© baseada em JSON Web Token (JWT). Ap√≥s realizar o login com sucesso, o cliente recebe um token que deve ser enviado nas requisi√ß√µes autenticadas por meio do cabe√ßalho `Authorization`:
 
 ```http
 Authorization: Bearer <seu-token>
 ```
 
-Esse fluxo permite proteger endpoints privados e simula um modelo de autenticaÁ„o comum em aplicaÁıes reais.
+Esse fluxo permite proteger endpoints privados e simula um modelo de autentica√ß√£o comum em aplica√ß√µes reais.
 
-## DocumentaÁ„o Swagger
+### Endpoint de Login
 
-A documentaÁ„o da API È disponibilizada com Swagger, permitindo visualizar os endpoints, entender os formatos de entrada e saÌda e testar as rotas de forma interativa em ambiente local.
+O endpoint de autentica√ß√£o atualmente dispon√≠vel √©:
+
+- `POST /login`
+
+Credenciais de teste:
+
+- `user`: `samuel.aquino`
+- `password`: `123456`
+
+### Exemplo de Request
+
+```http
+POST /login HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+
+{
+  "user": "samuel.aquino",
+  "password": "123456"
+}
+```
+
+Tamb√©m √© poss√≠vel testar com `curl`:
+
+```bash
+curl -X POST http://localhost:3000/login ^
+  -H "Content-Type: application/json" ^
+  -d "{\"user\":\"samuel.aquino\",\"password\":\"123456\"}"
+```
+
+### Exemplo de Response com Sucesso
+
+```json
+{
+  "token": "jwt-token-gerado"
+}
+```
+
+Observa√ß√£o: o token real √© gerado dinamicamente pela API e possui expira√ß√£o configurada em `1h`.
+
+### Exemplo de Erro de Autentica√ß√£o
+
+Quando as credenciais est√£o incorretas, a API retorna:
+
+```http
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+
+{
+  "message": "Invalid credentials"
+}
+```
+
+### Como Usar o Token Bearer
+
+Depois de obter o token no `POST /login`, envie-o no cabe√ßalho `Authorization` das rotas protegidas:
+
+```http
+Authorization: Bearer <seu-token>
+```
+
+Exemplo:
+
+```http
+GET /rota-protegida HTTP/1.1
+Host: localhost:3000
+Authorization: Bearer <seu-token>
+```
+
+No Swagger, o token pode ser informado diretamente na interface para facilitar os testes dos endpoints autenticados.
+
+## Documenta√ß√£o Swagger
+
+A documenta√ß√£o da API √© disponibilizada com Swagger, permitindo visualizar os endpoints, entender os formatos de entrada e sa√≠da e testar as rotas de forma interativa em ambiente local.
+
+Ap√≥s iniciar a aplica√ß√£o, acesse:
+
+```text
+http://localhost:3000/api-docs
+```
 
 ## Endpoints Iniciais da API
 
-### Projetos
+### Autentica√ß√£o
+
+- `POST /login` - Realiza autentica√ß√£o e retorna um token JWT
+
+### Pr√≥ximos endpoints planejados
 
 - `POST /projects` - Cria um novo projeto de testes
 - `GET /projects` - Lista todos os projetos cadastrados
-- `GET /projects/{projectId}` - Retorna os detalhes de um projeto especÌfico
-
-### Casos de Teste
-
+- `GET /projects/{projectId}` - Retorna os detalhes de um projeto espec√≠fico
 - `POST /test-cases` - Cria um novo caso de teste vinculado a um projeto
 - `GET /test-cases` - Lista todos os casos de teste cadastrados
 - `PATCH /test-cases/{testCaseId}` - Atualiza parcialmente um caso de teste existente
-
-### ExecuÁıes de Teste
-
-- `POST /test-runs` - Cria uma nova execuÁ„o de testes
-- `GET /test-runs` - Lista todas as execuÁıes de teste
-
-### Bugs e RelatÛrios
-
-- `POST /bugs` - Registra um bug encontrado durante a execuÁ„o dos testes
-- `GET /reports/execution-summary` - Retorna um resumo das execuÁıes de teste
+- `POST /test-runs` - Cria uma nova execu√ß√£o de testes
+- `GET /test-runs` - Lista todas as execu√ß√µes de teste
+- `POST /bugs` - Registra um bug encontrado durante a execu√ß√£o dos testes
+- `GET /reports/execution-summary` - Retorna um resumo das execu√ß√µes de teste
 
 ## Estrutura Sugerida de Pastas
 
-A estrutura abaixo representa uma organizaÁ„o recomendada para o projeto:
+A estrutura abaixo representa uma organiza√ß√£o recomendada para o projeto:
 
 ```text
 testflow-api/
 +-- src/
-¶   +-- controllers/
-¶   +-- routes/
-¶   +-- services/
-¶   +-- middlewares/
-¶   +-- models/
-¶   +-- docs/
-¶   +-- app.js
+|   +-- controllers/
+|   |   +-- authController.js
+|   +-- docs/
+|   |   +-- swagger.js
+|   +-- middlewares/
+|   +-- routes/
+|   |   +-- authRoutes.js
+|   +-- services/
+|   |   +-- authService.js
+|   +-- app.js
+|   +-- server.js
 +-- .env
++-- .env.example
 +-- package.json
 +-- README.md
 ```
 
 ## Como Instalar o Projeto
 
-1. Clone o repositÛrio.
+1. Clone o reposit√≥rio.
 2. Acesse a pasta do projeto.
-3. Instale as dependÍncias com o comando abaixo:
+3. Instale as depend√™ncias com o comando abaixo:
 
 ```bash
 npm install
+```
+
+4. Crie o arquivo `.env` com base no `.env.example` e defina as vari√°veis de ambiente necess√°rias.
+
+Exemplo:
+
+```env
+PORT=3000
+JWT_SECRET=your_jwt_secret_here
 ```
 
 ## Como Executar o Projeto
@@ -93,28 +183,35 @@ Para iniciar o ambiente de desenvolvimento, utilize:
 npm run dev
 ```
 
-Caso o projeto utilize script padr„o de inicializaÁ„o, tambÈm È possÌvel executar com:
+Esse comando utiliza `nodemon` para reiniciar o servidor automaticamente durante o desenvolvimento.
+
+Para executar a aplica√ß√£o em modo padr√£o:
 
 ```bash
 npm start
 ```
 
-## Como Acessar o Swagger
-
-ApÛs iniciar a aplicaÁ„o, a documentaÁ„o Swagger poder· ser acessada, em geral, no seguinte endereÁo:
+Por padr√£o, a API fica dispon√≠vel em:
 
 ```text
-http://localhost:3005/api-docs
+http://localhost:3000
 ```
 
-O caminho pode variar de acordo com a configuraÁ„o adotada no projeto.
+## Como Acessar o Swagger
 
-## PossÌveis EvoluÁıes Futuras
+Ap√≥s iniciar a aplica√ß√£o, a documenta√ß√£o Swagger poder√° ser acessada no seguinte endere√ßo:
 
-- Adicionar cadastro de usu·rios e controle de permissıes por perfil
-- Implementar testes automatizados para rotas e serviÁos
-- Adicionar paginaÁ„o, filtros e ordenaÁ„o nas rotas de listagem
-- Melhorar validaÁıes e tratamento de erros
-- Integrar banco de dados para persistÍncia das informaÁıes
+```text
+http://localhost:3000/api-docs
+```
+
+Na interface do Swagger, √© poss√≠vel visualizar o endpoint `POST /login`, enviar as credenciais de teste e inspecionar a resposta com o token JWT.
+
+## Poss√≠veis Evolu√ß√µes Futuras
+
+- Adicionar cadastro de usu√°rios e controle de permiss√µes por perfil
+- Implementar testes automatizados para rotas e servi√ßos
+- Adicionar pagina√ß√£o, filtros e ordena√ß√£o nas rotas de listagem
+- Melhorar valida√ß√µes e tratamento de erros
+- Integrar banco de dados para persist√™ncia das informa√ß√µes
 - Configurar pipeline de CI/CD
-
