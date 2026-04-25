@@ -1,153 +1,159 @@
 # TestFlow API
 
-A TestFlow API é uma API REST para gestão de testes de software, criada como projeto de portfólio pessoal. O projeto foi pensado para representar um cenário real de backend voltado ao controle de projetos de teste, casos de teste, execuções e registro de falhas, com foco em organização, clareza e boas práticas de desenvolvimento.
+TestFlow API is a REST API for software testing management. The project is being developed in stages, with implemented endpoints documented separately from the endpoints that are still planned.
 
-## Descrição
+## Description
 
-A proposta da TestFlow API é oferecer uma base para operações comuns de gerenciamento de testes em projetos de software. A API permite cadastrar projetos, criar e atualizar casos de teste, registrar execuções, controlar bugs encontrados e gerar resumos de execução. Além disso, conta com autenticação via JWT e documentação interativa com Swagger.
+The API is designed to support common testing workflows such as project creation, test case management, test run tracking, bug registration, and execution reporting. At the current stage, authentication and protected project creation are already available.
 
-## Objetivo
-
-O principal objetivo deste projeto é demonstrar habilidades de desenvolvimento backend por meio de uma aplicação prática e alinhada a necessidades do mercado. A API busca evidenciar conhecimento em arquitetura REST, autenticação, organização de rotas, modelagem de recursos e documentação de endpoints.
-
-## Tecnologias Utilizadas
+## Technologies
 
 - Node.js
 - JavaScript
 - Express
-- Arquitetura REST
-- JWT para autenticação
-- Swagger para documentação da API
-- Nodemon para ambiente de desenvolvimento
+- JWT
+- Swagger
+- Nodemon
 
-## Autenticação com JWT
+## Running the project
 
-A autenticação da API é baseada em JSON Web Token (JWT). Após realizar o login com sucesso, o cliente recebe um token que deve ser enviado nas requisições autenticadas por meio do cabeçalho `Authorization`:
+1. Install dependencies:
 
-```http
-Authorization: Bearer <seu-token>
+```bash
+npm install
 ```
 
-Esse fluxo permite proteger endpoints privados e simula um modelo de autenticação comum em aplicações reais.
+2. Create a `.env` file based on `.env.example`:
 
-### Endpoint de Login
+```env
+PORT=3000
+JWT_SECRET=your_jwt_secret_here
+```
 
-O endpoint de autenticação atualmente disponível é:
+3. Start the API:
+
+```bash
+npm run dev
+```
+
+The API will be available at:
+
+```text
+http://localhost:3000
+```
+
+## Swagger
+
+Swagger is available at:
+
+```text
+http://localhost:3000/api-docs
+```
+
+Use Swagger to test the implemented endpoints interactively, including protected routes that require a Bearer token.
+
+## Endpoints implemented
+
+### Authentication
 
 - `POST /login`
 
-Credenciais de teste:
+Test credentials:
 
 - `user`: `samuel.aquino`
 - `password`: `123456`
 
-### Exemplo de Request
+Example request:
 
-```http
-POST /login HTTP/1.1
-Host: localhost:3000
-Content-Type: application/json
-
+```json
 {
   "user": "samuel.aquino",
   "password": "123456"
 }
 ```
 
-Também é possível testar com `curl`:
-
-```bash
-curl -X POST http://localhost:3000/login ^
-  -H "Content-Type: application/json" ^
-  -d "{\"user\":\"samuel.aquino\",\"password\":\"123456\"}"
-```
-
-### Exemplo de Response com Sucesso
+Example success response:
 
 ```json
 {
+  "message": "Login successful",
   "token": "jwt-token-gerado"
 }
 ```
 
-Observação: o token real é gerado dinamicamente pela API e possui expiração configurada em `1h`.
+The JWT is generated only after valid credentials and currently includes simple payload data such as `user` and `role`, with expiration set to `1h`.
 
-### Exemplo de Erro de Autenticação
+### Projects
 
-Quando as credenciais estão incorretas, a API retorna:
+- `POST /projects`
+
+This endpoint is protected by JWT and requires the header:
 
 ```http
-HTTP/1.1 401 Unauthorized
-Content-Type: application/json
+Authorization: Bearer <token>
+```
 
+Example Bearer token usage:
+
+```http
+POST /projects HTTP/1.1
+Host: localhost:3000
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+
+Example request:
+
+```json
 {
-  "message": "Invalid credentials"
+  "name": "Website QA Project",
+  "description": "Test project for website regression testing",
+  "status": "active"
 }
 ```
 
-### Como Usar o Token Bearer
+## Endpoints planned
 
-Depois de obter o token no `POST /login`, envie-o no cabeçalho `Authorization` das rotas protegidas:
+- `GET /projects`
+- `GET /projects/{projectId}`
+- `POST /test-cases`
+- `GET /test-cases`
+- `PATCH /test-cases/{testCaseId}`
+- `POST /test-runs`
+- `GET /test-runs`
+- `POST /bugs`
+- `GET /reports/execution-summary`
+
+As new endpoints are implemented, they should move from the "planned" section to the "implemented" section.
+
+## JWT authentication flow
+
+1. Send credentials to `POST /login`.
+2. Copy the returned token.
+3. Use the token in protected routes with:
 
 ```http
-Authorization: Bearer <seu-token>
+Authorization: Bearer <token>
 ```
 
-Exemplo:
-
-```http
-GET /rota-protegida HTTP/1.1
-Host: localhost:3000
-Authorization: Bearer <seu-token>
-```
-
-No Swagger, o token pode ser informado diretamente na interface para facilitar os testes dos endpoints autenticados.
-
-## Documentação Swagger
-
-A documentação da API é disponibilizada com Swagger, permitindo visualizar os endpoints, entender os formatos de entrada e saída e testar as rotas de forma interativa em ambiente local.
-
-Após iniciar a aplicação, acesse:
-
-```text
-http://localhost:3000/api-docs
-```
-
-## Endpoints Iniciais da API
-
-### Autenticação
-
-- `POST /login` - Realiza autenticação e retorna um token JWT
-
-### Próximos endpoints planejados
-
-- `POST /projects` - Cria um novo projeto de testes
-- `GET /projects` - Lista todos os projetos cadastrados
-- `GET /projects/{projectId}` - Retorna os detalhes de um projeto específico
-- `POST /test-cases` - Cria um novo caso de teste vinculado a um projeto
-- `GET /test-cases` - Lista todos os casos de teste cadastrados
-- `PATCH /test-cases/{testCaseId}` - Atualiza parcialmente um caso de teste existente
-- `POST /test-runs` - Cria uma nova execução de testes
-- `GET /test-runs` - Lista todas as execuções de teste
-- `POST /bugs` - Registra um bug encontrado durante a execução dos testes
-- `GET /reports/execution-summary` - Retorna um resumo das execuções de teste
-
-## Estrutura Sugerida de Pastas
-
-A estrutura abaixo representa uma organização recomendada para o projeto:
+## Project structure
 
 ```text
 testflow-api/
 +-- src/
 |   +-- controllers/
 |   |   +-- authController.js
+|   |   +-- projectsController.js
 |   +-- docs/
 |   |   +-- swagger.js
 |   +-- middlewares/
+|   |   +-- authMiddleware.js
 |   +-- routes/
 |   |   +-- authRoutes.js
+|   |   +-- projectsRoutes.js
 |   +-- services/
 |   |   +-- authService.js
+|   |   +-- projectsService.js
 |   +-- app.js
 |   +-- server.js
 +-- .env
@@ -156,62 +162,10 @@ testflow-api/
 +-- README.md
 ```
 
-## Como Instalar o Projeto
+## Future improvements
 
-1. Clone o repositório.
-2. Acesse a pasta do projeto.
-3. Instale as dependências com o comando abaixo:
-
-```bash
-npm install
-```
-
-4. Crie o arquivo `.env` com base no `.env.example` e defina as variáveis de ambiente necessárias.
-
-Exemplo:
-
-```env
-PORT=3000
-JWT_SECRET=your_jwt_secret_here
-```
-
-## Como Executar o Projeto
-
-Para iniciar o ambiente de desenvolvimento, utilize:
-
-```bash
-npm run dev
-```
-
-Esse comando utiliza `nodemon` para reiniciar o servidor automaticamente durante o desenvolvimento.
-
-Para executar a aplicação em modo padrão:
-
-```bash
-npm start
-```
-
-Por padrão, a API fica disponível em:
-
-```text
-http://localhost:3000
-```
-
-## Como Acessar o Swagger
-
-Após iniciar a aplicação, a documentação Swagger poderá ser acessada no seguinte endereço:
-
-```text
-http://localhost:3000/api-docs
-```
-
-Na interface do Swagger, é possível visualizar o endpoint `POST /login`, enviar as credenciais de teste e inspecionar a resposta com o token JWT.
-
-## Possíveis Evoluções Futuras
-
-- Adicionar cadastro de usuários e controle de permissões por perfil
-- Implementar testes automatizados para rotas e serviços
-- Adicionar paginação, filtros e ordenação nas rotas de listagem
-- Melhorar validações e tratamento de erros
-- Integrar banco de dados para persistência das informações
-- Configurar pipeline de CI/CD
+- Add automated tests for routes and services
+- Introduce persistent database storage
+- Add user management and authorization profiles
+- Expand validation and error handling
+- Add CI/CD pipeline
