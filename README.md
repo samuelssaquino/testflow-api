@@ -1,12 +1,12 @@
 # TestFlow API
 
-TestFlow API is a REST API for software testing management. The project is being developed in stages, with implemented endpoints documented separately from the endpoints that are still planned.
+TestFlow API é uma API REST para gestão de testes de software. O projeto está sendo desenvolvido em etapas, com os endpoints implementados documentados separadamente dos endpoints que ainda estão planejados.
 
-## Description
+## Descrição
 
-The API is designed to support common testing workflows such as project creation, test case management, test run tracking, bug registration, and execution reporting. At the current stage, authentication and protected project creation are already available.
+A API foi projetada para suportar fluxos comuns de testes, como criação de projetos, gerenciamento de casos de teste, acompanhamento de execuções, registro de bugs e geração de relatórios. No estágio atual, autenticação e criação protegida de projetos já estão disponíveis.
 
-## Technologies
+## Tecnologias
 
 - Node.js
 - JavaScript
@@ -15,28 +15,28 @@ The API is designed to support common testing workflows such as project creation
 - Swagger
 - Nodemon
 
-## Running the project
+## Como executar o projeto
 
-1. Install dependencies:
+1. Instale as dependências:
 
 ```bash
 npm install
 ```
 
-2. Create a `.env` file based on `.env.example`:
+2. Crie um arquivo `.env` com base no `.env.example`:
 
 ```env
 PORT=3000
 JWT_SECRET=your_jwt_secret_here
 ```
 
-3. Start the API:
+3. Inicie a API:
 
 ```bash
 npm run dev
 ```
 
-The API will be available at:
+A API ficará disponível em:
 
 ```text
 http://localhost:3000
@@ -44,26 +44,26 @@ http://localhost:3000
 
 ## Swagger
 
-Swagger is available at:
+O Swagger está disponível em:
 
 ```text
 http://localhost:3000/api-docs
 ```
 
-Use Swagger to test the implemented endpoints interactively, including protected routes that require a Bearer token.
+Use o Swagger para testar os endpoints implementados de forma interativa, incluindo rotas protegidas que exigem Bearer Token.
 
-## Endpoints implemented
+## Endpoints implementados
 
-### Authentication
+### Autenticação
 
 - `POST /login`
 
-Test credentials:
+Credenciais de teste:
 
 - `user`: `samuel.aquino`
 - `password`: `123456`
 
-Example request:
+Exemplo de requisição:
 
 ```json
 {
@@ -72,7 +72,7 @@ Example request:
 }
 ```
 
-Example success response:
+Exemplo de resposta com sucesso:
 
 ```json
 {
@@ -81,19 +81,19 @@ Example success response:
 }
 ```
 
-The JWT is generated only after valid credentials and currently includes simple payload data such as `user` and `role`, with expiration set to `1h`.
+O JWT é gerado somente após credenciais válidas e atualmente inclui dados simples no payload, como `user` e `role`, com expiração configurada em `1h`.
 
-### Projects
+### Projetos
 
 - `POST /projects`
 
-This endpoint is protected by JWT and requires the header:
+Este endpoint é protegido por JWT e exige o header:
 
 ```http
 Authorization: Bearer <token>
 ```
 
-Example Bearer token usage:
+Exemplo de uso do Bearer Token:
 
 ```http
 POST /projects HTTP/1.1
@@ -102,7 +102,7 @@ Authorization: Bearer <token>
 Content-Type: application/json
 ```
 
-Example request:
+Exemplo de requisição:
 
 ```json
 {
@@ -112,7 +112,51 @@ Example request:
 }
 ```
 
-## Endpoints planned
+## Regras de Negócio
+
+As regras de negócio da API estão sendo formalizadas e rastreadas no Jira conforme a evolução do projeto.
+
+### Autenticação (POST /login)
+
+- `user` é obrigatório
+- `password` é obrigatório
+- ambos devem ser `string`
+- ambos não podem ser vazios
+- o campo `user` deve ser normalizado com `trim()`
+- credenciais válidas:
+  - `user`: `samuel.aquino`
+  - `password`: `123456`
+- credenciais inválidas retornam `401`
+- credenciais ausentes ou inválidas retornam `400` quando aplicável
+- a resposta nunca deve expor a `password`
+- o token JWT deve conter payload básico
+- o token deve possuir expiração
+- o endpoint deve estar documentado no Swagger
+
+### Projetos (POST /projects)
+
+- endpoint protegido por JWT
+- exige `Authorization: Bearer <token>`
+- token ausente retorna `401`
+- token inválido retorna `401`
+- `name` é obrigatório
+- `name` deve ter no mínimo 3 caracteres
+- `description` é opcional
+- `status` aceita apenas:
+  - `active`
+  - `archived`
+- o `status` padrão deve ser `active`
+- não permitir projetos com o mesmo `name`
+- o projeto deve retornar:
+  - `id`
+  - `name`
+  - `description`
+  - `status`
+  - `createdAt`
+  - `updatedAt`
+- o endpoint deve estar documentado no Swagger
+
+## Endpoints planejados
 
 - `GET /projects`
 - `GET /projects/{projectId}`
@@ -124,19 +168,19 @@ Example request:
 - `POST /bugs`
 - `GET /reports/execution-summary`
 
-As new endpoints are implemented, they should move from the "planned" section to the "implemented" section.
+Conforme novos endpoints forem implementados, eles devem sair da seção de planejados e passar para a seção de implementados.
 
-## JWT authentication flow
+## Fluxo de autenticação JWT
 
-1. Send credentials to `POST /login`.
-2. Copy the returned token.
-3. Use the token in protected routes with:
+1. Envie as credenciais para `POST /login`.
+2. Copie o token retornado.
+3. Use o token nas rotas protegidas com:
 
 ```http
 Authorization: Bearer <token>
 ```
 
-## Project structure
+## Estrutura do projeto
 
 ```text
 testflow-api/
@@ -162,10 +206,10 @@ testflow-api/
 +-- README.md
 ```
 
-## Future improvements
+## Melhorias futuras
 
-- Add automated tests for routes and services
-- Introduce persistent database storage
-- Add user management and authorization profiles
-- Expand validation and error handling
-- Add CI/CD pipeline
+- Adicionar testes automatizados para rotas e serviços
+- Introduzir persistência em banco de dados
+- Adicionar gerenciamento de usuários e perfis de autorização
+- Expandir validações e tratamento de erros
+- Adicionar pipeline de CI/CD
