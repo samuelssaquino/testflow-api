@@ -178,7 +178,7 @@ const listTestCases = () => {
   return [...testCases];
 };
 
-const updateTestCase = (testCaseId, payload) => {
+const getTestCaseById = (testCaseId) => {
   const testCase = testCases.find((item) => item.id === testCaseId);
 
   if (!testCase) {
@@ -189,6 +189,18 @@ const updateTestCase = (testCaseId, payload) => {
       },
     };
   }
+
+  return { testCase };
+};
+
+const updateTestCase = (testCaseId, payload) => {
+  const lookup = getTestCaseById(testCaseId);
+
+  if (lookup.error) {
+    return { error: lookup.error };
+  }
+
+  const { testCase } = lookup;
 
   const forbiddenFields = ["id", "projectId", "createdAt"];
   const forbiddenField = forbiddenFields.find((field) => field in payload);
@@ -331,5 +343,6 @@ const updateTestCase = (testCaseId, payload) => {
 module.exports = {
   createTestCase,
   listTestCases,
+  getTestCaseById,
   updateTestCase,
 };

@@ -234,6 +234,117 @@ const options = {
             },
           },
         },
+        CreateTestRunInput: {
+          type: "object",
+          required: ["projectId", "title", "testCaseIds", "executedBy"],
+          properties: {
+            projectId: {
+              type: "string",
+              format: "uuid",
+              example: "550e8400-e29b-41d4-a716-446655440000",
+            },
+            title: {
+              type: "string",
+              minLength: 3,
+              example: "Execucao de regressao sprint 5",
+            },
+            description: {
+              type: "string",
+              example: "Execucao principal de regressao da sprint",
+            },
+            testCaseIds: {
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "string",
+                format: "uuid",
+              },
+              example: ["c4b7d7b7-7c76-48bc-a70f-f6d565e3c65e"],
+            },
+            status: {
+              type: "string",
+              enum: ["pending", "in_progress", "completed"],
+              default: "pending",
+              example: "pending",
+            },
+            executedBy: {
+              type: "string",
+              example: "samuel.aquino",
+            },
+            startedAt: {
+              type: "string",
+              format: "date-time",
+              example: "2026-04-26T10:00:00.000Z",
+            },
+            finishedAt: {
+              type: "string",
+              format: "date-time",
+              example: "2026-04-26T11:30:00.000Z",
+            },
+          },
+        },
+        TestRun: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+              example: "af31ac17-f512-4d4f-8fe8-7579e98730ac",
+            },
+            projectId: {
+              type: "string",
+              format: "uuid",
+              example: "550e8400-e29b-41d4-a716-446655440000",
+            },
+            title: {
+              type: "string",
+              example: "Execucao de regressao sprint 5",
+            },
+            description: {
+              type: "string",
+              example: "Execucao principal de regressao da sprint",
+            },
+            testCaseIds: {
+              type: "array",
+              items: {
+                type: "string",
+                format: "uuid",
+              },
+              example: ["c4b7d7b7-7c76-48bc-a70f-f6d565e3c65e"],
+            },
+            status: {
+              type: "string",
+              enum: ["pending", "in_progress", "completed"],
+              example: "pending",
+            },
+            executedBy: {
+              type: "string",
+              example: "samuel.aquino",
+            },
+            startedAt: {
+              type: "string",
+              format: "date-time",
+              nullable: true,
+              example: "2026-04-26T10:00:00.000Z",
+            },
+            finishedAt: {
+              type: "string",
+              format: "date-time",
+              nullable: true,
+              example: "2026-04-26T11:30:00.000Z",
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+              example: "2026-04-26T10:00:00.000Z",
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+              example: "2026-04-26T10:00:00.000Z",
+            },
+          },
+        },
         ErrorResponse: {
           type: "object",
           properties: {

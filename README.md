@@ -172,10 +172,17 @@ Os endpoints de casos de teste também são protegidos por JWT e exigem `Authori
 
 Para regras mais detalhadas do módulo de casos de teste, consulte [docs/test-cases.md](/D:/MENTORIAJULIO/PROJETOS/testflow-api/docs/test-cases.md).
 
-## Endpoints planejados
+### Execuções de Teste
 
 - `POST /test-runs`
 - `GET /test-runs`
+
+Os endpoints de execuções de teste também são protegidos por JWT e exigem `Authorization: Bearer <token>`.
+
+Para regras mais detalhadas do módulo de execuções de teste, consulte [docs/test-runs.md](/D:/MENTORIAJULIO/PROJETOS/testflow-api/docs/test-runs.md).
+
+## Endpoints planejados
+
 - `POST /bugs`
 - `GET /reports/execution-summary`
 
@@ -198,11 +205,13 @@ testflow-api/
 +-- docs/
 |   +-- projects.md
 |   +-- test-cases.md
+|   +-- test-runs.md
 +-- src/
 |   +-- controllers/
 |   |   +-- authController.js
 |   |   +-- projectsController.js
 |   |   +-- testCasesController.js
+|   |   +-- testRunsController.js
 |   +-- docs/
 |   |   +-- swagger.js
 |   +-- middlewares/
@@ -211,10 +220,12 @@ testflow-api/
 |   |   +-- authRoutes.js
 |   |   +-- projectsRoutes.js
 |   |   +-- testCasesRoutes.js
+|   |   +-- testRunsRoutes.js
 |   +-- services/
 |   |   +-- authService.js
 |   |   +-- projectsService.js
 |   |   +-- testCasesService.js
+|   |   +-- testRunsService.js
 |   +-- app.js
 |   +-- server.js
 +-- .env
