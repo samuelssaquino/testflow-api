@@ -5,6 +5,7 @@ const authRoutes = require("./routes/authRoutes");
 const projectsRoutes = require("./routes/projectsRoutes");
 const testCasesRoutes = require("./routes/testCasesRoutes");
 const testRunsRoutes = require("./routes/testRunsRoutes");
+const bugsRoutes = require("./routes/bugsRoutes");
 const swaggerSpec = require("./docs/swagger");
 
 const app = express();
@@ -42,11 +43,13 @@ const swaggerUiOptions = {
   swaggerOptions: {
     operationsSorter: (firstOperation, secondOperation) => {
       const pathOrder = {
-        "/projects": 0,
-        "/projects/{projectId}": 1,
-        "/test-cases": 2,
-        "/test-cases/{testCaseId}": 3,
-        "/test-runs": 4,
+        "/login": 0,
+        "/projects": 1,
+        "/projects/{projectId}": 2,
+        "/test-cases": 3,
+        "/test-cases/{testCaseId}": 4,
+        "/test-runs": 5,
+        "/bugs": 6,
       };
       const methodOrder = {
         post: 0,
@@ -97,6 +100,7 @@ app.use("/", authRoutes);
 app.use("/", projectsRoutes);
 app.use("/", testCasesRoutes);
 app.use("/", testRunsRoutes);
+app.use("/", bugsRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOptions));
 
 module.exports = app;

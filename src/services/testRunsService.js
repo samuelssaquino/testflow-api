@@ -218,7 +218,23 @@ const listTestRuns = () => {
   return [...testRuns];
 };
 
+const getTestRunById = (testRunId) => {
+  const testRun = testRuns.find((item) => item.id === testRunId);
+
+  if (!testRun) {
+    return {
+      error: {
+        statusCode: 404,
+        message: "Test run not found",
+      },
+    };
+  }
+
+  return { testRun };
+};
+
 module.exports = {
   createTestRun,
   listTestRuns,
+  getTestRunById,
 };

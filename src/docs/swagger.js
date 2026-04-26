@@ -6,8 +6,30 @@ const options = {
     info: {
       title: "TestFlow API",
       version: "1.0.0",
-      description: "API REST para gestao de testes de software",
+      description: "API REST para gestão de testes de software",
     },
+    tags: [
+      {
+        name: "Auth",
+        description: "Autenticação",
+      },
+      {
+        name: "Projects",
+        description: "Gerenciamento de projetos",
+      },
+      {
+        name: "Test Cases",
+        description: "Gerenciamento de casos de teste",
+      },
+      {
+        name: "Test Runs",
+        description: "Gerenciamento de execuções de teste",
+      },
+      {
+        name: "Bugs",
+        description: "Gerenciamento de bugs",
+      },
+    ],
     components: {
       securitySchemes: {
         BearerAuth: {
@@ -342,6 +364,123 @@ const options = {
               type: "string",
               format: "date-time",
               example: "2026-04-26T10:00:00.000Z",
+            },
+          },
+        },
+        CreateBugInput: {
+          type: "object",
+          required: [
+            "testRunId",
+            "testCaseId",
+            "title",
+            "description",
+            "severity",
+            "priority",
+          ],
+          properties: {
+            testRunId: {
+              type: "string",
+              format: "uuid",
+              example: "af31ac17-f512-4d4f-8fe8-7579e98730ac",
+            },
+            testCaseId: {
+              type: "string",
+              format: "uuid",
+              example: "c4b7d7b7-7c76-48bc-a70f-f6d565e3c65e",
+            },
+            title: {
+              type: "string",
+              minLength: 3,
+              example: "Erro ao autenticar usuario com credenciais validas",
+            },
+            description: {
+              type: "string",
+              example: "O sistema apresentou falha 500 ao enviar o formulario",
+            },
+            severity: {
+              type: "string",
+              enum: ["low", "medium", "high", "critical"],
+              example: "high",
+            },
+            priority: {
+              type: "string",
+              enum: ["low", "medium", "high", "critical"],
+              example: "critical",
+            },
+            status: {
+              type: "string",
+              enum: ["open", "in_progress", "resolved", "closed"],
+              default: "open",
+              example: "open",
+            },
+            evidence: {
+              type: "string",
+              example: "https://example.com/evidencia.png",
+            },
+            stepsToReproduce: {
+              type: "string",
+              example: "Acessar login, preencher dados validos e clicar em entrar",
+            },
+          },
+        },
+        Bug: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+              example: "8910e77f-b923-4af0-a0d7-d1db2f9080b5",
+            },
+            testRunId: {
+              type: "string",
+              format: "uuid",
+              example: "af31ac17-f512-4d4f-8fe8-7579e98730ac",
+            },
+            testCaseId: {
+              type: "string",
+              format: "uuid",
+              example: "c4b7d7b7-7c76-48bc-a70f-f6d565e3c65e",
+            },
+            title: {
+              type: "string",
+              example: "Erro ao autenticar usuario com credenciais validas",
+            },
+            description: {
+              type: "string",
+              example: "O sistema apresentou falha 500 ao enviar o formulario",
+            },
+            severity: {
+              type: "string",
+              enum: ["low", "medium", "high", "critical"],
+              example: "high",
+            },
+            priority: {
+              type: "string",
+              enum: ["low", "medium", "high", "critical"],
+              example: "critical",
+            },
+            status: {
+              type: "string",
+              enum: ["open", "in_progress", "resolved", "closed"],
+              example: "open",
+            },
+            evidence: {
+              type: "string",
+              example: "https://example.com/evidencia.png",
+            },
+            stepsToReproduce: {
+              type: "string",
+              example: "Acessar login, preencher dados validos e clicar em entrar",
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+              example: "2026-04-26T16:30:00.000Z",
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+              example: "2026-04-26T16:30:00.000Z",
             },
           },
         },

@@ -181,9 +181,16 @@ Os endpoints de execuções de teste também são protegidos por JWT e exigem `A
 
 Para regras mais detalhadas do módulo de execuções de teste, consulte [docs/test-runs.md](/D:/MENTORIAJULIO/PROJETOS/testflow-api/docs/test-runs.md).
 
-## Endpoints planejados
+### Bugs
 
 - `POST /bugs`
+
+O endpoint de bugs também é protegido por JWT e exige `Authorization: Bearer <token>`.
+
+Para regras mais detalhadas do módulo de bugs, consulte [docs/bugs.md](/D:/MENTORIAJULIO/PROJETOS/testflow-api/docs/bugs.md).
+
+## Endpoints planejados
+
 - `GET /reports/execution-summary`
 
 Conforme novos endpoints forem implementados, eles devem sair da seção de planejados e passar para a seção de implementados.
@@ -206,12 +213,14 @@ testflow-api/
 |   +-- projects.md
 |   +-- test-cases.md
 |   +-- test-runs.md
+|   +-- bugs.md
 +-- src/
 |   +-- controllers/
 |   |   +-- authController.js
 |   |   +-- projectsController.js
 |   |   +-- testCasesController.js
 |   |   +-- testRunsController.js
+|   |   +-- bugsController.js
 |   +-- docs/
 |   |   +-- swagger.js
 |   +-- middlewares/
@@ -221,11 +230,13 @@ testflow-api/
 |   |   +-- projectsRoutes.js
 |   |   +-- testCasesRoutes.js
 |   |   +-- testRunsRoutes.js
+|   |   +-- bugsRoutes.js
 |   +-- services/
 |   |   +-- authService.js
 |   |   +-- projectsService.js
 |   |   +-- testCasesService.js
 |   |   +-- testRunsService.js
+|   |   +-- bugsService.js
 |   +-- app.js
 |   +-- server.js
 +-- .env
