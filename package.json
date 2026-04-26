@@ -5,7 +5,9 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "test": "mocha \"test/**/*.test.js\" --require dotenv/config --timeout 10000",
+    "test:report": "mocha \"test/**/*.test.js\" --require dotenv/config --reporter mochawesome --reporter-options reportDir=qa/reports,reportFilename=mochawesome-report,quiet=true,overwrite=true --timeout 10000"
   },
   "keywords": [
     "express",
@@ -24,6 +26,10 @@
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "chai": "^6.2.2",
+    "mocha": "^11.7.5",
+    "mochawesome": "^7.1.4",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.2.2"
   }
 }

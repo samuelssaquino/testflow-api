@@ -1,0 +1,4 @@
+interface:
+  display_name: "TestFlow API Test Automation"
+  short_description: "Padroniza testes automatizados da TestFlow API."
+  default_prompt: "Use $testflow-api-test-automation-skill para criar, manter ou evoluir os testes automatizados da TestFlow API seguindo o padrao de QA do projeto."
