@@ -162,11 +162,18 @@ As regras de negócio da API estão sendo formalizadas e rastreadas no Jira conf
 
 Para regras mais detalhadas do módulo de projetos, consulte [docs/projects.md](/D:/MENTORIAJULIO/PROJETOS/testflow-api/docs/projects.md).
 
-## Endpoints planejados
+### Casos de Teste
 
 - `POST /test-cases`
 - `GET /test-cases`
 - `PATCH /test-cases/{testCaseId}`
+
+Os endpoints de casos de teste também são protegidos por JWT e exigem `Authorization: Bearer <token>`.
+
+Para regras mais detalhadas do módulo de casos de teste, consulte [docs/test-cases.md](/D:/MENTORIAJULIO/PROJETOS/testflow-api/docs/test-cases.md).
+
+## Endpoints planejados
+
 - `POST /test-runs`
 - `GET /test-runs`
 - `POST /bugs`
@@ -190,10 +197,12 @@ Authorization: Bearer <token>
 testflow-api/
 +-- docs/
 |   +-- projects.md
+|   +-- test-cases.md
 +-- src/
 |   +-- controllers/
 |   |   +-- authController.js
 |   |   +-- projectsController.js
+|   |   +-- testCasesController.js
 |   +-- docs/
 |   |   +-- swagger.js
 |   +-- middlewares/
@@ -201,9 +210,11 @@ testflow-api/
 |   +-- routes/
 |   |   +-- authRoutes.js
 |   |   +-- projectsRoutes.js
+|   |   +-- testCasesRoutes.js
 |   +-- services/
 |   |   +-- authService.js
 |   |   +-- projectsService.js
+|   |   +-- testCasesService.js
 |   +-- app.js
 |   +-- server.js
 +-- .env
