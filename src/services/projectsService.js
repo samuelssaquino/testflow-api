@@ -64,6 +64,27 @@ const createProject = ({ name, description, status }) => {
   return { project };
 };
 
+const listProjects = () => {
+  return [...projects];
+};
+
+const getProjectById = (projectId) => {
+  const project = projects.find((item) => item.id === projectId);
+
+  if (!project) {
+    return {
+      error: {
+        statusCode: 404,
+        message: "Project not found",
+      },
+    };
+  }
+
+  return { project };
+};
+
 module.exports = {
   createProject,
+  listProjects,
+  getProjectById,
 };

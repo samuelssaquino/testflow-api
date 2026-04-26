@@ -86,12 +86,16 @@ O JWT é gerado somente após credenciais válidas e atualmente inclui dados sim
 ### Projetos
 
 - `POST /projects`
+- `GET /projects`
+- `GET /projects/{projectId}`
 
-Este endpoint é protegido por JWT e exige o header:
+Os endpoints de projetos são protegidos por JWT e exigem o header:
 
 ```http
 Authorization: Bearer <token>
 ```
+
+Os endpoints de consulta de projetos também são protegidos por JWT.
 
 Exemplo de uso do Bearer Token:
 
@@ -156,10 +160,10 @@ As regras de negócio da API estão sendo formalizadas e rastreadas no Jira conf
   - `updatedAt`
 - o endpoint deve estar documentado no Swagger
 
+Para regras mais detalhadas do módulo de projetos, consulte [docs/projects.md](/D:/MENTORIAJULIO/PROJETOS/testflow-api/docs/projects.md).
+
 ## Endpoints planejados
 
-- `GET /projects`
-- `GET /projects/{projectId}`
 - `POST /test-cases`
 - `GET /test-cases`
 - `PATCH /test-cases/{testCaseId}`
@@ -184,6 +188,8 @@ Authorization: Bearer <token>
 
 ```text
 testflow-api/
++-- docs/
+|   +-- projects.md
 +-- src/
 |   +-- controllers/
 |   |   +-- authController.js
