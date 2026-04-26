@@ -190,6 +190,11 @@ const createBug = (payload) => {
   return { bug };
 };
 
+const listBugs = () => {
+  return [...bugs];
+};
+
 module.exports = {
   createBug,
+  listBugs,
 };

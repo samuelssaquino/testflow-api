@@ -29,6 +29,10 @@ const options = {
         name: "Bugs",
         description: "Gerenciamento de bugs",
       },
+      {
+        name: "Reports",
+        description: "Relatorios e indicadores consolidados",
+      },
     ],
     components: {
       securitySchemes: {
@@ -481,6 +485,124 @@ const options = {
               type: "string",
               format: "date-time",
               example: "2026-04-26T16:30:00.000Z",
+            },
+          },
+        },
+        ExecutionSummaryReport: {
+          type: "object",
+          properties: {
+            totalProjects: {
+              type: "integer",
+              example: 2,
+            },
+            totalTestCases: {
+              type: "integer",
+              example: 5,
+            },
+            totalTestRuns: {
+              type: "integer",
+              example: 3,
+            },
+            totalBugs: {
+              type: "integer",
+              example: 4,
+            },
+            testCasesByStatus: {
+              type: "object",
+              properties: {
+                draft: {
+                  type: "integer",
+                  example: 2,
+                },
+                ready: {
+                  type: "integer",
+                  example: 3,
+                },
+                deprecated: {
+                  type: "integer",
+                  example: 0,
+                },
+              },
+            },
+            testRunsByStatus: {
+              type: "object",
+              properties: {
+                pending: {
+                  type: "integer",
+                  example: 1,
+                },
+                in_progress: {
+                  type: "integer",
+                  example: 1,
+                },
+                completed: {
+                  type: "integer",
+                  example: 1,
+                },
+              },
+            },
+            bugsByStatus: {
+              type: "object",
+              properties: {
+                open: {
+                  type: "integer",
+                  example: 2,
+                },
+                in_progress: {
+                  type: "integer",
+                  example: 1,
+                },
+                resolved: {
+                  type: "integer",
+                  example: 1,
+                },
+                closed: {
+                  type: "integer",
+                  example: 0,
+                },
+              },
+            },
+            bugsBySeverity: {
+              type: "object",
+              properties: {
+                low: {
+                  type: "integer",
+                  example: 0,
+                },
+                medium: {
+                  type: "integer",
+                  example: 1,
+                },
+                high: {
+                  type: "integer",
+                  example: 2,
+                },
+                critical: {
+                  type: "integer",
+                  example: 1,
+                },
+              },
+            },
+            bugsByPriority: {
+              type: "object",
+              properties: {
+                low: {
+                  type: "integer",
+                  example: 0,
+                },
+                medium: {
+                  type: "integer",
+                  example: 1,
+                },
+                high: {
+                  type: "integer",
+                  example: 2,
+                },
+                critical: {
+                  type: "integer",
+                  example: 1,
+                },
+              },
             },
           },
         },

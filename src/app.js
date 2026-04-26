@@ -6,6 +6,7 @@ const projectsRoutes = require("./routes/projectsRoutes");
 const testCasesRoutes = require("./routes/testCasesRoutes");
 const testRunsRoutes = require("./routes/testRunsRoutes");
 const bugsRoutes = require("./routes/bugsRoutes");
+const reportsRoutes = require("./routes/reportsRoutes");
 const swaggerSpec = require("./docs/swagger");
 
 const app = express();
@@ -50,6 +51,7 @@ const swaggerUiOptions = {
         "/test-cases/{testCaseId}": 4,
         "/test-runs": 5,
         "/bugs": 6,
+        "/reports/execution-summary": 7,
       };
       const methodOrder = {
         post: 0,
@@ -101,6 +103,7 @@ app.use("/", projectsRoutes);
 app.use("/", testCasesRoutes);
 app.use("/", testRunsRoutes);
 app.use("/", bugsRoutes);
+app.use("/", reportsRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOptions));
 
 module.exports = app;
