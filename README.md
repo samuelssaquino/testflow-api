@@ -56,7 +56,7 @@ Use o Swagger para testar os endpoints implementados de forma interativa, inclui
 
 O projeto possui testes automatizados funcionais da API para validar o comportamento dos endpoints implementados.
 
-A primeira cobertura automatizada foi criada para o endpoint `POST /login`, contemplando cenários positivos e negativos.
+A cobertura automatizada já contempla o endpoint `POST /login` e a validação inicial do módulo `Projects`, incluindo `POST /projects`, `GET /projects` e `GET /projects/{projectId}`.
 
 Os testes validam:
 
