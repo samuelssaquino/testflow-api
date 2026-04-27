@@ -4,7 +4,7 @@ TestFlow API é uma API REST para gestão de testes de software. O projeto está
 
 ## Descrição
 
-A API foi projetada para suportar fluxos comuns de testes, como criação de projetos, gerenciamento de casos de teste, acompanhamento de execuções, registro de bugs e geração de relatórios. No estágio atual, autenticação e criação protegida de projetos já estão disponíveis.
+A API foi projetada para suportar fluxos comuns de testes, como criação de projetos, gerenciamento de casos de teste, acompanhamento de execuções, registro de bugs e geração de relatórios. No estágio atual, autenticação e criação protegida de projetos já estão disponíveis. O projeto também possui uma suíte inicial de testes automatizados para validação funcional dos endpoints da API.
 
 ## Tecnologias
 
@@ -51,6 +51,38 @@ http://localhost:3000/api-docs
 ```
 
 Use o Swagger para testar os endpoints implementados de forma interativa, incluindo rotas protegidas que exigem Bearer Token.
+
+## Testes Automatizados
+
+O projeto possui testes automatizados funcionais da API para validar o comportamento dos endpoints implementados.
+
+A primeira cobertura automatizada foi criada para o endpoint `POST /login`, contemplando cenários positivos e negativos.
+
+Os testes validam:
+
+- `status code`
+- corpo da resposta
+- regras de negócio
+- estrutura do token JWT
+
+A suíte utiliza:
+
+- `Mocha`
+- `Chai`
+- `Supertest`
+- `Mochawesome`
+- `dotenv`
+
+Comandos disponíveis:
+
+```bash
+npm test
+npm run test:report
+```
+
+O comando `npm test` executa a suíte de testes automatizados.
+
+O comando `npm run test:report` executa os testes e gera um relatório HTML com `Mochawesome`.
 
 ## Endpoints implementados
 
@@ -225,6 +257,10 @@ testflow-api/
 |   +-- test-runs.md
 |   +-- bugs.md
 |   +-- reports.md
++-- qa/
+|   +-- test-plan.md
+|   +-- test-cases.md
+|   +-- test-report.md
 +-- src/
 |   +-- controllers/
 |   |   +-- authController.js
@@ -253,6 +289,13 @@ testflow-api/
 |   |   +-- reportsService.js
 |   +-- app.js
 |   +-- server.js
++-- test/
+|   +-- auth/
+|   |   +-- login.test.js
+|   +-- helpers/
+|   |   +-- auth.helper.js
+|   +-- fixtures/
+|   |   +-- auth.fixture.js
 +-- .env
 +-- .env.example
 +-- package.json
