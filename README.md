@@ -4,7 +4,7 @@ TestFlow API é uma API REST para gestão de testes de software. O projeto está
 
 ## Descrição
 
-A API foi projetada para suportar fluxos comuns de testes, como criação de projetos, gerenciamento de casos de teste, acompanhamento de execuções, registro de bugs e geração de relatórios. No estágio atual, autenticação e criação protegida de projetos já estão disponíveis. O projeto também possui uma suíte inicial de testes automatizados para validação funcional dos endpoints da API.
+A API foi projetada para suportar fluxos comuns de testes, como criação de projetos, gerenciamento de casos de teste, acompanhamento de execuções, registro de bugs e geração de relatórios. No estágio atual, a API já possui autenticação, gestão de projetos, gestão de casos de teste, gestão de execuções de teste, registro de bugs, relatório consolidado de execução e uma suíte inicial de testes automatizados para o endpoint POST /login.
 
 ## Tecnologias
 
