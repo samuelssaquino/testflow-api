@@ -36,3 +36,40 @@
 | PROJ-014 | Buscar projeto inexistente por id | API disponivel e token JWT valido | `projectId` inexistente | Enviar `GET /projects/{projectId}` | Retornar `404` com mensagem `Project not found` | Alta |
 | PROJ-015 | Buscar projeto por id sem token | API disponivel | `projectId` qualquer | Enviar `GET /projects/{projectId}` sem token | Retornar `401` com mensagem de token obrigatorio | Alta |
 | PROJ-016 | Buscar projeto por id com token invalido | API disponivel | `projectId` qualquer e token invalido | Enviar `GET /projects/{projectId}` com token invalido | Retornar `401` com mensagem `Invalid token` | Alta |
+
+# Casos de Teste - Test Cases
+
+| ID | Titulo | Pre-condicoes | Massa de dados | Passos | Resultado esperado | Prioridade |
+| --- | --- | --- | --- | --- | --- | --- |
+| TC-001 | Criar caso de teste com token valido | API disponivel, token JWT valido e projeto existente | Payload valido com `projectId` existente | Enviar `POST /test-cases` com Bearer Token | Retornar `201` com os campos do test case | Alta |
+| TC-002 | Criar caso de teste sem status | API disponivel, token JWT valido e projeto existente | Payload valido sem `status` | Enviar `POST /test-cases` sem o campo `status` | Retornar `201` com `status: draft` | Alta |
+| TC-003 | Criar caso de teste sem token | API disponivel e projeto existente | Payload valido | Enviar `POST /test-cases` sem token | Retornar `401` com mensagem de token obrigatorio | Alta |
+| TC-004 | Criar caso de teste com token invalido | API disponivel e projeto existente | Payload valido e token invalido | Enviar `POST /test-cases` com token invalido | Retornar `401` com mensagem `Invalid token` | Alta |
+| TC-005 | Criar caso de teste sem projectId | API disponivel e token JWT valido | Payload sem `projectId` | Enviar `POST /test-cases` sem `projectId` | Retornar `400` com mensagem de obrigatoriedade | Alta |
+| TC-006 | Criar caso de teste com projectId inexistente | API disponivel e token JWT valido | `projectId` inexistente | Enviar `POST /test-cases` com projeto invalido | Retornar `404` com mensagem `Project not found` | Alta |
+| TC-007 | Criar caso de teste sem title | API disponivel, token JWT valido e projeto existente | Payload sem `title` | Enviar `POST /test-cases` sem `title` | Retornar `400` com mensagem de obrigatoriedade | Alta |
+| TC-008 | Criar caso de teste com title menor que 3 caracteres | API disponivel, token JWT valido e projeto existente | `title: "AB"` | Enviar `POST /test-cases` com titulo invalido | Retornar `400` com mensagem de tamanho minimo | Alta |
+| TC-009 | Criar caso de teste sem steps | API disponivel, token JWT valido e projeto existente | Payload sem `steps` | Enviar `POST /test-cases` sem `steps` | Retornar `400` com mensagem de array obrigatorio | Alta |
+| TC-010 | Criar caso de teste com steps nao array | API disponivel, token JWT valido e projeto existente | `steps` como texto | Enviar `POST /test-cases` com `steps` invalido | Retornar `400` com mensagem de array invalido | Alta |
+| TC-011 | Criar caso de teste com steps vazio | API disponivel, token JWT valido e projeto existente | `steps: []` | Enviar `POST /test-cases` com array vazio | Retornar `400` com mensagem de array invalido | Alta |
+| TC-012 | Criar caso de teste sem expectedResult | API disponivel, token JWT valido e projeto existente | Payload sem `expectedResult` | Enviar `POST /test-cases` sem `expectedResult` | Retornar `400` com mensagem de obrigatoriedade | Alta |
+| TC-013 | Criar caso de teste com priority invalida | API disponivel, token JWT valido e projeto existente | `priority: urgent` | Enviar `POST /test-cases` com prioridade invalida | Retornar `400` com mensagem de prioridade permitida | Alta |
+| TC-014 | Criar caso de teste com status invalido | API disponivel, token JWT valido e projeto existente | `status: active` | Enviar `POST /test-cases` com status invalido | Retornar `400` com mensagem de status permitido | Alta |
+| TC-015 | Criar caso de teste duplicado no mesmo projeto | API disponivel, token JWT valido e projeto existente | Mesmo `title` no mesmo `projectId` | Executar duas criacoes com o mesmo titulo no mesmo projeto | Segunda resposta retorna `409` | Alta |
+| TC-016 | Listar casos de teste com token valido | API disponivel e token JWT valido | Pelo menos um test case criado | Enviar `GET /test-cases` com Bearer Token | Retornar `200` e array de test cases | Alta |
+| TC-017 | Listar casos de teste sem token | API disponivel | Nenhuma massa especifica | Enviar `GET /test-cases` sem token | Retornar `401` com mensagem de token obrigatorio | Alta |
+| TC-018 | Listar casos de teste com token invalido | API disponivel | Token invalido | Enviar `GET /test-cases` com token invalido | Retornar `401` com mensagem `Invalid token` | Alta |
+| TC-019 | Atualizar parcialmente um caso de teste | API disponivel, token JWT valido, projeto existente e test case criado | Payload parcial valido | Enviar `PATCH /test-cases/{testCaseId}` | Retornar `200` com campos atualizados | Alta |
+| TC-020 | Atualizar priority com valor valido | API disponivel, token JWT valido e test case criado | `priority: critical` | Enviar `PATCH /test-cases/{testCaseId}` com nova prioridade | Retornar `200` com prioridade atualizada | Alta |
+| TC-021 | Atualizar status com valor valido | API disponivel, token JWT valido e test case criado | `status: deprecated` | Enviar `PATCH /test-cases/{testCaseId}` com novo status | Retornar `200` com status atualizado | Alta |
+| TC-022 | Atualizar updatedAt | API disponivel, token JWT valido e test case criado | Atualizacao parcial valida | Enviar `PATCH /test-cases/{testCaseId}` | Retornar `200` com `updatedAt` atualizado | Media |
+| TC-023 | Atualizar test case inexistente | API disponivel e token JWT valido | `testCaseId` inexistente | Enviar `PATCH /test-cases/{testCaseId}` com id invalido | Retornar `404` com mensagem `Test case not found` | Alta |
+| TC-024 | Atualizar test case sem token | API disponivel e test case criado | Payload parcial valido | Enviar `PATCH /test-cases/{testCaseId}` sem token | Retornar `401` com mensagem de token obrigatorio | Alta |
+| TC-025 | Atualizar test case com token invalido | API disponivel e test case criado | Payload parcial valido e token invalido | Enviar `PATCH /test-cases/{testCaseId}` com token invalido | Retornar `401` com mensagem `Invalid token` | Alta |
+| TC-026 | Atualizar title com menos de 3 caracteres | API disponivel, token JWT valido e test case criado | `title: "AB"` | Enviar `PATCH /test-cases/{testCaseId}` com titulo invalido | Retornar `400` com mensagem de tamanho minimo | Alta |
+| TC-027 | Atualizar steps com valor nao array | API disponivel, token JWT valido e test case criado | `steps` como texto | Enviar `PATCH /test-cases/{testCaseId}` com `steps` invalido | Retornar `400` com mensagem de array invalido | Alta |
+| TC-028 | Atualizar steps com array vazio | API disponivel, token JWT valido e test case criado | `steps: []` | Enviar `PATCH /test-cases/{testCaseId}` com array vazio | Retornar `400` com mensagem de array invalido | Alta |
+| TC-029 | Atualizar priority com valor invalido | API disponivel, token JWT valido e test case criado | `priority: urgent` | Enviar `PATCH /test-cases/{testCaseId}` com prioridade invalida | Retornar `400` com mensagem de prioridade permitida | Alta |
+| TC-030 | Atualizar status com valor invalido | API disponivel, token JWT valido e test case criado | `status: active` | Enviar `PATCH /test-cases/{testCaseId}` com status invalido | Retornar `400` com mensagem de status permitido | Alta |
+| TC-031 | Atualizar para title duplicado no mesmo projeto | API disponivel, token JWT valido e dois test cases criados no mesmo projeto | `title` de outro test case do mesmo projeto | Enviar `PATCH /test-cases/{testCaseId}` com titulo duplicado | Retornar `409` | Alta |
+| TC-032 | Bloquear alteracao de id, projectId e createdAt | API disponivel, token JWT valido e test case criado | Payload com campos protegidos | Enviar `PATCH /test-cases/{testCaseId}` com campos proibidos | Retornar `400` e bloquear a alteracao | Alta |

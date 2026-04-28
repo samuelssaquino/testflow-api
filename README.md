@@ -56,7 +56,7 @@ Use o Swagger para testar os endpoints implementados de forma interativa, inclui
 
 O projeto possui testes automatizados funcionais da API para validar o comportamento dos endpoints implementados.
 
-A cobertura automatizada já contempla o endpoint `POST /login` e a validação inicial do módulo `Projects`, incluindo `POST /projects`, `GET /projects` e `GET /projects/{projectId}`.
+A cobertura automatizada já contempla o endpoint `POST /login`, a validação inicial do módulo `Projects` e a validação inicial do módulo `Test Cases`, incluindo `POST /projects`, `GET /projects`, `GET /projects/{projectId}`, `POST /test-cases`, `GET /test-cases` e `PATCH /test-cases/{testCaseId}`.
 
 Os testes validam:
 
@@ -292,10 +292,16 @@ testflow-api/
 +-- test/
 |   +-- auth/
 |   |   +-- login.test.js
+|   +-- test-cases/
+|   |   +-- test-cases.test.js
 |   +-- helpers/
 |   |   +-- auth.helper.js
+|   |   +-- projects.helper.js
+|   |   +-- test-cases.helper.js
 |   +-- fixtures/
 |   |   +-- auth.fixture.js
+|   |   +-- projects.fixture.js
+|   |   +-- test-cases.fixture.js
 +-- .env
 +-- .env.example
 +-- package.json
