@@ -74,6 +74,35 @@
 | TC-031 | Atualizar para title duplicado no mesmo projeto | API disponivel, token JWT valido e dois test cases criados no mesmo projeto | `title` de outro test case do mesmo projeto | Enviar `PATCH /test-cases/{testCaseId}` com titulo duplicado | Retornar `409` | Alta |
 | TC-032 | Bloquear alteracao de id, projectId e createdAt | API disponivel, token JWT valido e test case criado | Payload com campos protegidos | Enviar `PATCH /test-cases/{testCaseId}` com campos proibidos | Retornar `400` e bloquear a alteracao | Alta |
 
+# Casos de Teste - Test Runs
+
+| ID | Titulo | Pre-condicoes | Massa de dados | Passos | Resultado esperado | Prioridade |
+| --- | --- | --- | --- | --- | --- | --- |
+| TR-001 | Criar execucao de teste com token valido | API disponivel, token JWT valido, projeto e test case existentes | Payload valido com `projectId` e `testCaseIds` validos | Enviar `POST /test-runs` com Bearer Token | Retornar `201` com os campos da execucao | Alta |
+| TR-002 | Criar execucao sem status | API disponivel, token JWT valido, projeto e test case existentes | Payload valido sem `status` | Enviar `POST /test-runs` sem o campo `status` | Retornar `201` com `status: pending` | Alta |
+| TR-003 | Criar execucao sem token | API disponivel e dados previos existentes | Payload valido | Enviar `POST /test-runs` sem token | Retornar `401` com mensagem de token obrigatorio | Alta |
+| TR-004 | Criar execucao com token invalido | API disponivel e dados previos existentes | Payload valido e token invalido | Enviar `POST /test-runs` com token invalido | Retornar `401` com mensagem `Invalid token` | Alta |
+| TR-005 | Criar execucao sem projectId | API disponivel, token JWT valido e dados previos existentes | Payload sem `projectId` | Enviar `POST /test-runs` sem `projectId` | Retornar `400` com mensagem de obrigatoriedade | Alta |
+| TR-006 | Criar execucao sem title | API disponivel, token JWT valido e dados previos existentes | Payload sem `title` | Enviar `POST /test-runs` sem `title` | Retornar `400` com mensagem de obrigatoriedade | Alta |
+| TR-007 | Criar execucao com title menor que 3 caracteres | API disponivel, token JWT valido e dados previos existentes | `title: "AB"` | Enviar `POST /test-runs` com titulo invalido | Retornar `400` com mensagem de tamanho minimo | Alta |
+| TR-008 | Criar execucao sem testCaseIds | API disponivel, token JWT valido e dados previos existentes | Payload sem `testCaseIds` | Enviar `POST /test-runs` sem `testCaseIds` | Retornar `400` com mensagem de array obrigatorio | Alta |
+| TR-009 | Criar execucao com testCaseIds nao array | API disponivel, token JWT valido e dados previos existentes | `testCaseIds` como texto | Enviar `POST /test-runs` com `testCaseIds` invalido | Retornar `400` com mensagem de array invalido | Alta |
+| TR-010 | Criar execucao com testCaseIds vazio | API disponivel, token JWT valido e dados previos existentes | `testCaseIds: []` | Enviar `POST /test-runs` com array vazio | Retornar `400` com mensagem de array invalido | Alta |
+| TR-011 | Criar execucao com testCaseIds duplicados | API disponivel, token JWT valido e dados previos existentes | Mesmo `testCaseId` repetido no array | Enviar `POST /test-runs` com IDs duplicados | Retornar `400` com mensagem de duplicidade | Alta |
+| TR-012 | Criar execucao com status invalido | API disponivel, token JWT valido e dados previos existentes | `status: active` | Enviar `POST /test-runs` com status invalido | Retornar `400` com mensagem de status permitido | Alta |
+| TR-013 | Criar execucao sem executedBy | API disponivel, token JWT valido e dados previos existentes | Payload sem `executedBy` | Enviar `POST /test-runs` sem `executedBy` | Retornar `400` com mensagem de obrigatoriedade | Alta |
+| TR-014 | Criar execucao com executedBy nao string | API disponivel, token JWT valido e dados previos existentes | `executedBy: 123` | Enviar `POST /test-runs` com `executedBy` invalido | Retornar `400` com mensagem de tipo invalido | Alta |
+| TR-015 | Criar execucao com startedAt invalido | API disponivel, token JWT valido e dados previos existentes | `startedAt: invalid-date` | Enviar `POST /test-runs` com data invalida | Retornar `400` com mensagem de data invalida | Alta |
+| TR-016 | Criar execucao com finishedAt invalido | API disponivel, token JWT valido e dados previos existentes | `finishedAt: invalid-date` | Enviar `POST /test-runs` com data invalida | Retornar `400` com mensagem de data invalida | Alta |
+| TR-017 | Criar execucao com finishedAt menor que startedAt | API disponivel, token JWT valido e dados previos existentes | `startedAt` maior que `finishedAt` | Enviar `POST /test-runs` com ordem de datas invalida | Retornar `400` com mensagem de validacao | Alta |
+| TR-018 | Criar execucao com projectId inexistente | API disponivel, token JWT valido e dados previos existentes | `projectId` inexistente | Enviar `POST /test-runs` com projeto invalido | Retornar `404` com mensagem `Project not found` | Alta |
+| TR-019 | Criar execucao com testCaseId inexistente | API disponivel, token JWT valido e dados previos existentes | `testCaseId` inexistente no array | Enviar `POST /test-runs` com caso de teste invalido | Retornar `404` com mensagem `Test case not found` | Alta |
+| TR-020 | Criar execucao com testCaseId de outro projeto | API disponivel, token JWT valido e dados previos existentes | `testCaseId` valido de outro projeto | Enviar `POST /test-runs` com associacao invalida | Retornar `400` conforme padrao atual da API | Alta |
+| TR-021 | Criar execucao duplicada no mesmo projeto | API disponivel, token JWT valido e dados previos existentes | Mesmo `title` no mesmo `projectId` | Executar duas criacoes com o mesmo titulo | Segunda resposta retorna `409` | Alta |
+| TR-022 | Listar execucoes com token valido | API disponivel e token JWT valido | Pelo menos uma execucao criada | Enviar `GET /test-runs` com Bearer Token | Retornar `200` e array de execucoes | Alta |
+| TR-023 | Listar execucoes sem token | API disponivel | Nenhuma massa especifica | Enviar `GET /test-runs` sem token | Retornar `401` com mensagem de token obrigatorio | Alta |
+| TR-024 | Listar execucoes com token invalido | API disponivel | Token invalido | Enviar `GET /test-runs` com token invalido | Retornar `401` com mensagem `Invalid token` | Alta |
+
 # Casos de Teste - Bugs
 
 | ID | Titulo | Pre-condicoes | Massa de dados | Passos | Resultado esperado | Prioridade |
