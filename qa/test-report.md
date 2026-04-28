@@ -28,4 +28,4 @@
 ## Observacoes
 
 - Registrar comportamento observado, bloqueios e pontos de atencao
-- Atualizar o resumo conforme a evolucao da cobertura automatizada dos modulos `Auth`, `Projects` e `Test Cases`
+- Atualizar o resumo conforme a evolucao da cobertura automatizada dos modulos `Auth`, `Projects`, `Test Cases` e `Bugs`

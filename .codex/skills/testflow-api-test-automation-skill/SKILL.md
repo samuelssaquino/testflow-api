@@ -42,7 +42,7 @@ Use this skill whenever the task is to create, maintain, organize, or expand aut
 
 - Nao alterar a API sem necessidade.
 - Criar testes claros, organizados e reutilizaveis.
-- Manter nomes de testes em ingles.
+- Todos os nomes dos testes automatizados devem estar em portugues do Brasil. Isso inclui os textos dentro de `describe(...)` e `it(...)`. Nao usar ingles nos titulos dos testes.
 - Manter documentacao em portugues do Brasil.
 - Preferir reutilizacao em vez de duplicacao.
 - Usar `fixtures` para massas de dados estaticas.

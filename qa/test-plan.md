@@ -2,19 +2,20 @@
 
 ## Objetivo
 
-Definir a abordagem inicial de testes automatizados funcionais da TestFlow API, cobrindo os módulos `Auth`, `Projects` e `Test Cases`.
+Definir a abordagem inicial de testes automatizados funcionais da TestFlow API, cobrindo os módulos `Auth`, `Projects`, `Test Cases` e `Bugs`.
 
 ## Escopo
 
 - Validação funcional do endpoint `POST /login`
 - Validação funcional dos endpoints `POST /projects`, `GET /projects` e `GET /projects/{projectId}`
 - Validação funcional dos endpoints `POST /test-cases`, `GET /test-cases` e `PATCH /test-cases/{testCaseId}`
+- Validação funcional do endpoint `POST /bugs`
 - Estrutura inicial de automação com `Mocha`, `Chai`, `Supertest`, `Mochawesome` e `dotenv`
 - Organização inicial de `helpers`, `fixtures` e documentação de QA
 
 ## Fora de escopo
 
-- Testes automatizados dos demais endpoints além de `POST /login`, `POST /projects`, `GET /projects`, `GET /projects/{projectId}`, `POST /test-cases`, `GET /test-cases` e `PATCH /test-cases/{testCaseId}` nesta etapa
+- Testes automatizados dos demais endpoints além de `POST /login`, `POST /projects`, `GET /projects`, `GET /projects/{projectId}`, `POST /test-cases`, `GET /test-cases`, `PATCH /test-cases/{testCaseId}` e `POST /bugs` nesta etapa
 - Testes de performance
 - Testes de carga
 - Testes de segurança aprofundados
@@ -56,11 +57,11 @@ Definir a abordagem inicial de testes automatizados funcionais da TestFlow API, 
 - Dependências instaladas
 - `JWT_SECRET` configurado
 - Credenciais de teste disponíveis
-- Endpoints `POST /login`, `POST /projects`, `GET /projects`, `GET /projects/{projectId}`, `POST /test-cases`, `GET /test-cases` e `PATCH /test-cases/{testCaseId}` implementados e funcionais
+- Endpoints `POST /login`, `POST /projects`, `GET /projects`, `GET /projects/{projectId}`, `POST /test-cases`, `GET /test-cases`, `PATCH /test-cases/{testCaseId}` e `POST /bugs` implementados e funcionais
 
 ## Critérios de saída
 
-- Suíte inicial de `Auth`, `Projects` e `Test Cases` executando com sucesso
+- Suíte inicial de `Auth`, `Projects`, `Test Cases` e `Bugs` executando com sucesso
 - Casos positivos e negativos cobertos
 - Relatório de execução gerado
 - Documentação inicial de QA criada em `/qa`
@@ -81,3 +82,4 @@ Definir a abordagem inicial de testes automatizados funcionais da TestFlow API, 
 - `POST /test-cases`
 - `GET /test-cases`
 - `PATCH /test-cases/{testCaseId}`
+- `POST /bugs`

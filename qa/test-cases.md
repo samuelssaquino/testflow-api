@@ -73,3 +73,23 @@
 | TC-030 | Atualizar status com valor invalido | API disponivel, token JWT valido e test case criado | `status: active` | Enviar `PATCH /test-cases/{testCaseId}` com status invalido | Retornar `400` com mensagem de status permitido | Alta |
 | TC-031 | Atualizar para title duplicado no mesmo projeto | API disponivel, token JWT valido e dois test cases criados no mesmo projeto | `title` de outro test case do mesmo projeto | Enviar `PATCH /test-cases/{testCaseId}` com titulo duplicado | Retornar `409` | Alta |
 | TC-032 | Bloquear alteracao de id, projectId e createdAt | API disponivel, token JWT valido e test case criado | Payload com campos protegidos | Enviar `PATCH /test-cases/{testCaseId}` com campos proibidos | Retornar `400` e bloquear a alteracao | Alta |
+
+# Casos de Teste - Bugs
+
+| ID | Titulo | Pre-condicoes | Massa de dados | Passos | Resultado esperado | Prioridade |
+| --- | --- | --- | --- | --- | --- | --- |
+| BUG-001 | Criar bug com token valido | API disponivel, token JWT valido, projeto, test case e test run existentes | Payload valido com `testRunId` e `testCaseId` validos | Enviar `POST /bugs` com Bearer Token | Retornar `201` com os campos do bug | Alta |
+| BUG-002 | Criar bug sem status | API disponivel, token JWT valido, projeto, test case e test run existentes | Payload valido sem `status` | Enviar `POST /bugs` sem o campo `status` | Retornar `201` com `status: open` | Alta |
+| BUG-003 | Criar bug sem token | API disponivel e dados previos existentes | Payload valido | Enviar `POST /bugs` sem token | Retornar `401` com mensagem de token obrigatorio | Alta |
+| BUG-004 | Criar bug com token invalido | API disponivel e dados previos existentes | Payload valido e token invalido | Enviar `POST /bugs` com token invalido | Retornar `401` com mensagem `Invalid token` | Alta |
+| BUG-005 | Criar bug sem testRunId | API disponivel, token JWT valido e dados previos existentes | Payload sem `testRunId` | Enviar `POST /bugs` sem `testRunId` | Retornar `400` com mensagem de obrigatoriedade | Alta |
+| BUG-006 | Criar bug sem testCaseId | API disponivel, token JWT valido e dados previos existentes | Payload sem `testCaseId` | Enviar `POST /bugs` sem `testCaseId` | Retornar `400` com mensagem de obrigatoriedade | Alta |
+| BUG-007 | Criar bug sem title | API disponivel, token JWT valido e dados previos existentes | Payload sem `title` | Enviar `POST /bugs` sem `title` | Retornar `400` com mensagem de obrigatoriedade | Alta |
+| BUG-008 | Criar bug com title menor que 3 caracteres | API disponivel, token JWT valido e dados previos existentes | `title: "AB"` | Enviar `POST /bugs` com titulo invalido | Retornar `400` com mensagem de tamanho minimo | Alta |
+| BUG-009 | Criar bug sem description | API disponivel, token JWT valido e dados previos existentes | Payload sem `description` | Enviar `POST /bugs` sem `description` | Retornar `400` com mensagem de obrigatoriedade | Alta |
+| BUG-010 | Criar bug com severity invalida | API disponivel, token JWT valido e dados previos existentes | `severity: urgent` | Enviar `POST /bugs` com severidade invalida | Retornar `400` com mensagem de severidade permitida | Alta |
+| BUG-011 | Criar bug com priority invalida | API disponivel, token JWT valido e dados previos existentes | `priority: urgent` | Enviar `POST /bugs` com prioridade invalida | Retornar `400` com mensagem de prioridade permitida | Alta |
+| BUG-012 | Criar bug com status invalido | API disponivel, token JWT valido e dados previos existentes | `status: active` | Enviar `POST /bugs` com status invalido | Retornar `400` com mensagem de status permitido | Alta |
+| BUG-013 | Criar bug com testRunId inexistente | API disponivel, token JWT valido e dados previos existentes | `testRunId` inexistente | Enviar `POST /bugs` com execucao invalida | Retornar `404` com mensagem `Test run not found` | Alta |
+| BUG-014 | Criar bug com testCaseId inexistente | API disponivel, token JWT valido e dados previos existentes | `testCaseId` inexistente | Enviar `POST /bugs` com caso de teste invalido | Retornar `404` com mensagem `Test case not found` | Alta |
+| BUG-015 | Criar bug duplicado para o mesmo testRunId e testCaseId | API disponivel, token JWT valido e dados previos existentes | Mesmo `title`, `testRunId` e `testCaseId` em duas requisicoes | Executar duas criacoes com o mesmo bug | Segunda resposta retorna `409` | Alta |
