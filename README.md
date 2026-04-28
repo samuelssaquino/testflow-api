@@ -56,7 +56,7 @@ Use o Swagger para testar os endpoints implementados de forma interativa, inclui
 
 O projeto possui testes automatizados funcionais da API para validar o comportamento dos endpoints implementados.
 
-A cobertura automatizada já contempla o endpoint `POST /login`, a validação inicial dos módulos `Projects`, `Test Cases`, `Test Runs` e `Bugs`, incluindo `POST /projects`, `GET /projects`, `GET /projects/{projectId}`, `POST /test-cases`, `GET /test-cases`, `PATCH /test-cases/{testCaseId}`, `POST /test-runs`, `GET /test-runs` e `POST /bugs`.
+A cobertura automatizada já contempla o endpoint `POST /login`, a validação inicial dos módulos `Projects`, `Test Cases`, `Test Runs`, `Bugs` e `Reports`, incluindo `POST /projects`, `GET /projects`, `GET /projects/{projectId}`, `POST /test-cases`, `GET /test-cases`, `PATCH /test-cases/{testCaseId}`, `POST /test-runs`, `GET /test-runs`, `POST /bugs` e `GET /reports/execution-summary`.
 
 Os testes validam:
 
@@ -294,6 +294,8 @@ testflow-api/
 |   |   +-- login.test.js
 |   +-- bugs/
 |   |   +-- bugs.test.js
+|   +-- reports/
+|   |   +-- execution-summary.test.js
 |   +-- test-cases/
 |   |   +-- test-cases.test.js
 |   +-- test-runs/
@@ -302,6 +304,7 @@ testflow-api/
 |   |   +-- auth.helper.js
 |   |   +-- bugs.helper.js
 |   |   +-- projects.helper.js
+|   |   +-- reports.helper.js
 |   |   +-- test-cases.helper.js
 |   |   +-- test-runs.helper.js
 |   +-- fixtures/

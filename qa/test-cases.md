@@ -122,3 +122,19 @@
 | BUG-013 | Criar bug com testRunId inexistente | API disponivel, token JWT valido e dados previos existentes | `testRunId` inexistente | Enviar `POST /bugs` com execucao invalida | Retornar `404` com mensagem `Test run not found` | Alta |
 | BUG-014 | Criar bug com testCaseId inexistente | API disponivel, token JWT valido e dados previos existentes | `testCaseId` inexistente | Enviar `POST /bugs` com caso de teste invalido | Retornar `404` com mensagem `Test case not found` | Alta |
 | BUG-015 | Criar bug duplicado para o mesmo testRunId e testCaseId | API disponivel, token JWT valido e dados previos existentes | Mesmo `title`, `testRunId` e `testCaseId` em duas requisicoes | Executar duas criacoes com o mesmo bug | Segunda resposta retorna `409` | Alta |
+
+# Casos de Teste - Reports
+
+| ID | Titulo | Pre-condicoes | Massa de dados | Passos | Resultado esperado | Prioridade |
+| --- | --- | --- | --- | --- | --- | --- |
+| REP-001 | Consultar resumo de execucao com token valido | API disponivel e token JWT valido | Nenhuma massa adicional | Enviar `GET /reports/execution-summary` com Bearer Token | Retornar `200` com estrutura completa do resumo | Alta |
+| REP-002 | Consultar resumo de execucao sem token | API disponivel | Nenhuma massa especifica | Enviar `GET /reports/execution-summary` sem token | Retornar `401` com mensagem de token obrigatorio | Alta |
+| REP-003 | Consultar resumo de execucao com token invalido | API disponivel | Token invalido | Enviar `GET /reports/execution-summary` com token invalido | Retornar `401` com mensagem `Invalid token` | Alta |
+| REP-004 | Validar metricas principais do resumo | API disponivel, token JWT valido e dados previos criados | Projetos, test cases, test runs e bugs criados em memoria | Consultar o endpoint de resumo | Retornar `totalProjects`, `totalTestCases`, `totalTestRuns` e `totalBugs` com valores corretos | Alta |
+| REP-005 | Validar agrupamentos por status de casos de teste | API disponivel, token JWT valido e dados previos criados | Test cases nos status `draft`, `ready` e `deprecated` | Consultar o endpoint de resumo | Retornar `testCasesByStatus` com contagens corretas | Alta |
+| REP-006 | Validar agrupamentos por status de execucoes | API disponivel, token JWT valido e dados previos criados | Test runs nos status `pending`, `in_progress` e `completed` | Consultar o endpoint de resumo | Retornar `testRunsByStatus` com contagens corretas | Alta |
+| REP-007 | Validar agrupamentos por status de bugs | API disponivel, token JWT valido e dados previos criados | Bugs nos status `open`, `in_progress`, `resolved` e `closed` | Consultar o endpoint de resumo | Retornar `bugsByStatus` com contagens corretas | Alta |
+| REP-008 | Validar agrupamentos por severidade dos bugs | API disponivel, token JWT valido e dados previos criados | Bugs com severidades `low`, `medium`, `high` e `critical` | Consultar o endpoint de resumo | Retornar `bugsBySeverity` com contagens corretas | Alta |
+| REP-009 | Validar agrupamentos por prioridade dos bugs | API disponivel, token JWT valido e dados previos criados | Bugs com prioridades `low`, `medium`, `high` e `critical` | Consultar o endpoint de resumo | Retornar `bugsByPriority` com contagens corretas | Alta |
+| REP-010 | Validar tipos numericos das metricas principais | API disponivel, token JWT valido e dados previos criados | Dados previos em memoria | Consultar o endpoint de resumo | Retornar metricas principais como valores numericos | Media |
+| REP-011 | Validar que a consulta do relatorio nao altera os dados existentes | API disponivel, token JWT valido e dados previos criados | Projetos, test cases, test runs e bugs criados em memoria | Consultar o endpoint duas vezes seguidas | Retornar o mesmo resumo sem alterar as contagens existentes | Alta |
