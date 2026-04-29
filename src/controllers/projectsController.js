@@ -26,8 +26,22 @@ const getProjectById = (req, res) => {
   return res.status(200).json(project);
 };
 
+const updateProject = (req, res) => {
+  const { error, project } = projectsService.updateProject(
+    req.params.projectId,
+    req.body
+  );
+
+  if (error) {
+    return res.status(error.statusCode).json({ message: error.message });
+  }
+
+  return res.status(200).json(project);
+};
+
 module.exports = {
   createProject,
   listProjects,
   getProjectById,
+  updateProject,
 };

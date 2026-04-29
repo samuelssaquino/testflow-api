@@ -83,8 +83,95 @@ const getProjectById = (projectId) => {
   return { project };
 };
 
+const updateProject = (projectId, payload) => {
+  const lookup = getProjectById(projectId);
+
+  if (lookup.error) {
+    return { error: lookup.error };
+  }
+
+  const protectedFields = ["id", "createdAt"];
+  const blockedField = protectedFields.find((field) =>
+    Object.prototype.hasOwnProperty.call(payload, field)
+  );
+
+  if (blockedField) {
+    return {
+      error: {
+        statusCode: 400,
+        message: `${blockedField} cannot be updated`,
+      },
+    };
+  }
+
+  const project = lookup.project;
+
+  if (Object.prototype.hasOwnProperty.call(payload, "name")) {
+    const normalizedName =
+      typeof payload.name === "string" ? payload.name.trim() : "";
+
+    if (!normalizedName) {
+      return {
+        error: {
+          statusCode: 400,
+          message: "Project name is required",
+        },
+      };
+    }
+
+    if (normalizedName.length < 3) {
+      return {
+        error: {
+          statusCode: 400,
+          message: "Project name must be at least 3 characters long",
+        },
+      };
+    }
+
+    const duplicatedProject = projects.find(
+      (item) =>
+        item.id !== projectId &&
+        item.name.toLowerCase() === normalizedName.toLowerCase()
+    );
+
+    if (duplicatedProject) {
+      return {
+        error: {
+          statusCode: 409,
+          message: "Project name already exists",
+        },
+      };
+    }
+
+    project.name = normalizedName;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(payload, "description")) {
+    project.description =
+      typeof payload.description === "string" ? payload.description.trim() : "";
+  }
+
+  if (Object.prototype.hasOwnProperty.call(payload, "status")) {
+    if (!VALID_STATUSES.includes(payload.status)) {
+      return {
+        error: {
+          statusCode: 400,
+          message: "Status must be either active or archived",
+        },
+      };
+    }
+
+    project.status = payload.status;
+  }
+
+  project.updatedAt = new Date().toISOString();
+
+  return { project };
+};
+
 module.exports = {
   createProject,
   listProjects,
   getProjectById,
+  updateProject,
 };

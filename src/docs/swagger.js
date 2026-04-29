@@ -64,6 +64,25 @@ const options = {
             },
           },
         },
+        UpdateProjectInput: {
+          type: "object",
+          properties: {
+            name: {
+              type: "string",
+              minLength: 3,
+              example: "Website QA Project Updated",
+            },
+            description: {
+              type: "string",
+              example: "Projeto atualizado para testes regressivos",
+            },
+            status: {
+              type: "string",
+              enum: ["active", "archived"],
+              example: "archived",
+            },
+          },
+        },
         Project: {
           type: "object",
           properties: {

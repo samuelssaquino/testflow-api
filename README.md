@@ -120,6 +120,7 @@ O JWT é gerado somente após credenciais válidas e atualmente inclui dados sim
 - `POST /projects`
 - `GET /projects`
 - `GET /projects/{projectId}`
+- `PATCH /projects/{projectId}`
 
 Os endpoints de projetos são protegidos por JWT e exigem o header:
 
@@ -231,7 +232,6 @@ Para regras mais detalhadas do módulo de relatórios, consulte [docs/reports.md
 
 ## Endpoints planejados
 
-- `PATCH /projects/{projectId}` - Atualiza parcialmente um projeto existente
 - `PATCH /bugs/{bugId}` - Atualiza parcialmente um bug existente
 - `DELETE /test-cases/{testCaseId}` - Remove um caso de teste existente
 

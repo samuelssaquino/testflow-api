@@ -57,3 +57,31 @@ Este documento consolida as regras de negocio do modulo de projetos da TestFlow 
   - `status`
   - `createdAt`
   - `updatedAt`
+
+## PATCH /projects/{projectId}
+
+- Endpoint protegido por JWT.
+- Exige `Authorization: Bearer <token>`.
+- Token ausente retorna `401`.
+- Token invalido retorna `401`.
+- Deve buscar o projeto pelo `id`.
+- Quando o projeto nao existir, deve retornar `404`.
+- Deve permitir atualizacao parcial apenas dos campos:
+  - `name`
+  - `description`
+  - `status`
+- Nao permitir alteracao dos campos:
+  - `id`
+  - `createdAt`
+- Quando `name` for enviado, deve ter no minimo 3 caracteres.
+- Quando `status` for enviado, deve aceitar apenas `active` e `archived`.
+- Nao permitir atualizar para um `name` ja existente em outro projeto.
+- Deve atualizar o campo `updatedAt`.
+- Quando a atualizacao for concluida com sucesso, deve retornar status `200`.
+- A resposta deve conter:
+  - `id`
+  - `name`
+  - `description`
+  - `status`
+  - `createdAt`
+  - `updatedAt`

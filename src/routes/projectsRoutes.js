@@ -147,11 +147,99 @@ router.post("/projects", authenticateToken, projectsController.createProject);
  *               notFound:
  *                 value:
  *                   message: Project not found
+ *   patch:
+ *     summary: Atualiza parcialmente um projeto pelo id
+ *     tags:
+ *       - Projects
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: projectId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador unico do projeto
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateProjectInput'
+ *           examples:
+ *             updateNameAndStatus:
+ *               value:
+ *                 name: Website QA Project Updated
+ *                 status: archived
+ *             updateDescription:
+ *               value:
+ *                 description: Projeto atualizado para testes regressivos
+ *     responses:
+ *       200:
+ *         description: Projeto atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Project'
+ *       400:
+ *         description: Dados invalidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *             examples:
+ *               invalidName:
+ *                 value:
+ *                   message: Project name must be at least 3 characters long
+ *               invalidStatus:
+ *                 value:
+ *                   message: Status must be either active or archived
+ *               blockedField:
+ *                 value:
+ *                   message: id cannot be updated
+ *       401:
+ *         description: Token ausente ou invalido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *             examples:
+ *               missingToken:
+ *                 value:
+ *                   message: Authorization token is required
+ *               invalidToken:
+ *                 value:
+ *                   message: Invalid token
+ *       404:
+ *         description: Projeto nao encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *             examples:
+ *               notFound:
+ *                 value:
+ *                   message: Project not found
+ *       409:
+ *         description: Projeto com nome ja existente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *             examples:
+ *               duplicateName:
+ *                 value:
+ *                   message: Project name already exists
  */
 router.get(
   "/projects/:projectId",
   authenticateToken,
   projectsController.getProjectById
+);
+router.patch(
+  "/projects/:projectId",
+  authenticateToken,
+  projectsController.updateProject
 );
 
 module.exports = router;
