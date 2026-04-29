@@ -2,12 +2,17 @@ const { expect } = require("chai");
 
 const { buildProjectPayload } = require("../fixtures/projects.fixture");
 const { buildTestCasePayload } = require("../fixtures/test-cases.fixture");
+const { buildTestRunPayload } = require("../fixtures/test-runs.fixture");
+const { buildBugPayload } = require("../fixtures/bugs.fixture");
 const { createAuthenticatedHeaders, postProject } = require("../helpers/projects.helper");
 const {
+  deleteTestCase,
   getTestCases,
   patchTestCase,
   postTestCase,
 } = require("../helpers/test-cases.helper");
+const { postTestRun, getTestRuns } = require("../helpers/test-runs.helper");
+const { postBug } = require("../helpers/bugs.helper");
 
 describe("Módulo Test Cases", () => {
   let authHeaders;
@@ -499,6 +504,144 @@ describe("Módulo Test Cases", () => {
       expect(response.status).to.equal(400);
       expect(response.body).to.deep.equal({
         message: "id cannot be updated",
+      });
+    });
+  });
+
+  describe("DELETE /test-cases/{testCaseId}", () => {
+    let createdTestCase;
+
+    beforeEach(async () => {
+      const createResponse = await postTestCase(
+        buildTestCasePayload({ projectId }),
+        authHeaders
+      );
+
+      createdTestCase = createResponse.body;
+    });
+
+    it("deve remover um caso de teste existente com token válido", async () => {
+      const response = await deleteTestCase(createdTestCase.id, authHeaders);
+
+      expect(response.status).to.equal(200);
+      expect(response.headers["content-type"]).to.include("application/json");
+    });
+
+    it("deve retornar mensagem de sucesso ao remover um caso de teste", async () => {
+      const response = await deleteTestCase(createdTestCase.id, authHeaders);
+
+      expect(response.status).to.equal(200);
+      expect(response.body).to.deep.equal({
+        message: "Test case deleted successfully",
+      });
+    });
+
+    it("deve garantir que o caso de teste removido não aparece mais em GET /test-cases", async () => {
+      const deleteResponse = await deleteTestCase(createdTestCase.id, authHeaders);
+      const listResponse = await getTestCases(authHeaders);
+
+      expect(deleteResponse.status).to.equal(200);
+      expect(listResponse.status).to.equal(200);
+      expect(listResponse.body.some((testCase) => testCase.id === createdTestCase.id)).to.equal(
+        false
+      );
+    });
+
+    it("deve impedir que o caso de teste removido seja usado em POST /test-runs", async () => {
+      const deleteResponse = await deleteTestCase(createdTestCase.id, authHeaders);
+      const createTestRunResponse = await postTestRun(
+        buildTestRunPayload({ projectId, testCaseIds: [createdTestCase.id] }),
+        authHeaders
+      );
+
+      expect(deleteResponse.status).to.equal(200);
+      expect(createTestRunResponse.status).to.equal(404);
+      expect(createTestRunResponse.body).to.deep.equal({
+        message: "Test case not found",
+      });
+    });
+
+    it("deve retornar 401 quando o token não for enviado", async () => {
+      const response = await deleteTestCase(createdTestCase.id);
+
+      expect(response.status).to.equal(401);
+      expect(response.body).to.deep.equal({
+        message: "Authorization token is required",
+      });
+    });
+
+    it("deve retornar 401 quando o token for inválido", async () => {
+      const response = await deleteTestCase(createdTestCase.id, {
+        Authorization: "Bearer invalid-token",
+      });
+
+      expect(response.status).to.equal(401);
+      expect(response.body).to.deep.equal({
+        message: "Invalid token",
+      });
+    });
+
+    it("deve retornar 404 quando o testCaseId não existir", async () => {
+      const response = await deleteTestCase("non-existent-test-case-id", authHeaders);
+
+      expect(response.status).to.equal(404);
+      expect(response.body).to.deep.equal({
+        message: "Test case not found",
+      });
+    });
+
+    it("deve não alterar projetos existentes após remover um caso de teste", async () => {
+      const secondProjectResponse = await postProject(buildProjectPayload(), authHeaders);
+
+      const deleteResponse = await deleteTestCase(createdTestCase.id, authHeaders);
+
+      expect(deleteResponse.status).to.equal(200);
+      expect(secondProjectResponse.status).to.equal(201);
+      expect(secondProjectResponse.body).to.include({
+        id: secondProjectResponse.body.id,
+        name: secondProjectResponse.body.name,
+      });
+    });
+
+    it("deve não alterar test runs já existentes após remover um caso de teste", async () => {
+      const createdTestRunResponse = await postTestRun(
+        buildTestRunPayload({ projectId, testCaseIds: [createdTestCase.id] }),
+        authHeaders
+      );
+
+      const deleteResponse = await deleteTestCase(createdTestCase.id, authHeaders);
+      const listTestRunsResponse = await getTestRuns(authHeaders);
+
+      expect(createdTestRunResponse.status).to.equal(201);
+      expect(deleteResponse.status).to.equal(200);
+      expect(listTestRunsResponse.status).to.equal(200);
+      expect(
+        listTestRunsResponse.body.some((testRun) => testRun.id === createdTestRunResponse.body.id)
+      ).to.equal(true);
+    });
+
+    it("deve não alterar bugs já existentes após remover um caso de teste", async () => {
+      const createdTestRunResponse = await postTestRun(
+        buildTestRunPayload({ projectId, testCaseIds: [createdTestCase.id] }),
+        authHeaders
+      );
+      const createdBugResponse = await postBug(
+        buildBugPayload({
+          testRunId: createdTestRunResponse.body.id,
+          testCaseId: createdTestCase.id,
+        }),
+        authHeaders
+      );
+
+      const deleteResponse = await deleteTestCase(createdTestCase.id, authHeaders);
+
+      expect(createdTestRunResponse.status).to.equal(201);
+      expect(createdBugResponse.status).to.equal(201);
+      expect(deleteResponse.status).to.equal(200);
+      expect(createdBugResponse.body).to.include({
+        id: createdBugResponse.body.id,
+        testCaseId: createdTestCase.id,
+        testRunId: createdTestRunResponse.body.id,
       });
     });
   });

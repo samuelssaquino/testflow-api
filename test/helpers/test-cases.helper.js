@@ -32,8 +32,21 @@ const patchTestCase = async (testCaseId, payload, headers = {}) => {
   return request.send(payload);
 };
 
+const deleteTestCase = async (testCaseId, headers = {}) => {
+  const request = buildRequester()
+    .delete(`/test-cases/${testCaseId}`)
+    .set("Accept", "application/json");
+
+  Object.entries(headers).forEach(([key, value]) => {
+    request.set(key, value);
+  });
+
+  return request;
+};
+
 module.exports = {
   postTestCase,
   getTestCases,
   patchTestCase,
+  deleteTestCase,
 };

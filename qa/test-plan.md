@@ -8,7 +8,7 @@ Definir a abordagem inicial de testes automatizados funcionais da TestFlow API, 
 
 - Validação funcional do endpoint `POST /login`
 - Validação funcional dos endpoints `POST /projects`, `GET /projects`, `GET /projects/{projectId}` e `PATCH /projects/{projectId}`
-- Validação funcional dos endpoints `POST /test-cases`, `GET /test-cases` e `PATCH /test-cases/{testCaseId}`
+- Validação funcional dos endpoints `POST /test-cases`, `GET /test-cases`, `PATCH /test-cases/{testCaseId}` e `DELETE /test-cases/{testCaseId}`
 - Validação funcional dos endpoints `POST /test-runs` e `GET /test-runs`
 - Validação funcional dos endpoints `POST /bugs` e `PATCH /bugs/{bugId}`
 - Validação funcional do endpoint `GET /reports/execution-summary`
@@ -17,7 +17,7 @@ Definir a abordagem inicial de testes automatizados funcionais da TestFlow API, 
 
 ## Fora de escopo
 
-- Testes automatizados dos demais endpoints além de `POST /login`, `POST /projects`, `GET /projects`, `GET /projects/{projectId}`, `PATCH /projects/{projectId}`, `POST /test-cases`, `GET /test-cases`, `PATCH /test-cases/{testCaseId}`, `POST /test-runs`, `GET /test-runs`, `POST /bugs`, `PATCH /bugs/{bugId}` e `GET /reports/execution-summary` nesta etapa
+- Testes automatizados dos demais endpoints além de `POST /login`, `POST /projects`, `GET /projects`, `GET /projects/{projectId}`, `PATCH /projects/{projectId}`, `POST /test-cases`, `GET /test-cases`, `PATCH /test-cases/{testCaseId}`, `DELETE /test-cases/{testCaseId}`, `POST /test-runs`, `GET /test-runs`, `POST /bugs`, `PATCH /bugs/{bugId}` e `GET /reports/execution-summary` nesta etapa
 - Testes de performance
 - Testes de carga
 - Testes de segurança aprofundados
@@ -59,7 +59,7 @@ Definir a abordagem inicial de testes automatizados funcionais da TestFlow API, 
 - Dependências instaladas
 - `JWT_SECRET` configurado
 - Credenciais de teste disponíveis
-- Endpoints `POST /login`, `POST /projects`, `GET /projects`, `GET /projects/{projectId}`, `PATCH /projects/{projectId}`, `POST /test-cases`, `GET /test-cases`, `PATCH /test-cases/{testCaseId}`, `POST /test-runs`, `GET /test-runs`, `POST /bugs`, `PATCH /bugs/{bugId}` e `GET /reports/execution-summary` implementados e funcionais
+- Endpoints `POST /login`, `POST /projects`, `GET /projects`, `GET /projects/{projectId}`, `PATCH /projects/{projectId}`, `POST /test-cases`, `GET /test-cases`, `PATCH /test-cases/{testCaseId}`, `DELETE /test-cases/{testCaseId}`, `POST /test-runs`, `GET /test-runs`, `POST /bugs`, `PATCH /bugs/{bugId}` e `GET /reports/execution-summary` implementados e funcionais
 
 ## Critérios de saída
 
@@ -85,6 +85,7 @@ Definir a abordagem inicial de testes automatizados funcionais da TestFlow API, 
 - `POST /test-cases`
 - `GET /test-cases`
 - `PATCH /test-cases/{testCaseId}`
+- `DELETE /test-cases/{testCaseId}`
 - `POST /test-runs`
 - `GET /test-runs`
 - `POST /bugs`
