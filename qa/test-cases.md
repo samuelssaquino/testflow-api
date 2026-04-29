@@ -36,6 +36,19 @@
 | PROJ-014 | Buscar projeto inexistente por id | API disponivel e token JWT valido | `projectId` inexistente | Enviar `GET /projects/{projectId}` | Retornar `404` com mensagem `Project not found` | Alta |
 | PROJ-015 | Buscar projeto por id sem token | API disponivel | `projectId` qualquer | Enviar `GET /projects/{projectId}` sem token | Retornar `401` com mensagem de token obrigatorio | Alta |
 | PROJ-016 | Buscar projeto por id com token invalido | API disponivel | `projectId` qualquer e token invalido | Enviar `GET /projects/{projectId}` com token invalido | Retornar `401` com mensagem `Invalid token` | Alta |
+| PROJ-017 | Atualizar parcialmente um projeto com token valido | API disponivel, token JWT valido e projeto existente | Payload parcial valido com `name`, `description` e `status` | Enviar `PATCH /projects/{projectId}` com Bearer Token | Retornar `200` com o projeto atualizado | Alta |
+| PROJ-018 | Atualizar apenas o name do projeto | API disponivel, token JWT valido e projeto existente | Payload com `name` valido | Enviar `PATCH /projects/{projectId}` com novo nome | Retornar `200` com `name` atualizado | Alta |
+| PROJ-019 | Atualizar apenas a description do projeto | API disponivel, token JWT valido e projeto existente | Payload com `description` valida | Enviar `PATCH /projects/{projectId}` com nova descricao | Retornar `200` com `description` atualizada | Media |
+| PROJ-020 | Atualizar apenas o status do projeto | API disponivel, token JWT valido e projeto existente | Payload com `status: archived` | Enviar `PATCH /projects/{projectId}` com novo status | Retornar `200` com `status` atualizado | Alta |
+| PROJ-021 | Atualizar o campo updatedAt do projeto | API disponivel, token JWT valido e projeto existente | Payload parcial valido | Enviar `PATCH /projects/{projectId}` | Retornar `200` com `updatedAt` atualizado | Media |
+| PROJ-022 | Atualizar projeto sem token | API disponivel e projeto existente | Payload parcial valido | Enviar `PATCH /projects/{projectId}` sem token | Retornar `401` com mensagem de token obrigatorio | Alta |
+| PROJ-023 | Atualizar projeto com token invalido | API disponivel e projeto existente | Payload parcial valido e token invalido | Enviar `PATCH /projects/{projectId}` com token invalido | Retornar `401` com mensagem `Invalid token` | Alta |
+| PROJ-024 | Atualizar projeto inexistente | API disponivel e token JWT valido | `projectId` inexistente | Enviar `PATCH /projects/{projectId}` com id invalido | Retornar `404` com mensagem `Project not found` | Alta |
+| PROJ-025 | Atualizar projeto com name menor que 3 caracteres | API disponivel, token JWT valido e projeto existente | `name: \"AB\"` | Enviar `PATCH /projects/{projectId}` com nome invalido | Retornar `400` com mensagem de tamanho minimo | Alta |
+| PROJ-026 | Atualizar projeto com status invalido | API disponivel, token JWT valido e projeto existente | `status: inactive` | Enviar `PATCH /projects/{projectId}` com status invalido | Retornar `400` com mensagem de status permitido | Alta |
+| PROJ-027 | Tentar alterar o campo id do projeto | API disponivel, token JWT valido e projeto existente | Payload com `id` | Enviar `PATCH /projects/{projectId}` tentando alterar `id` | Retornar `400` com bloqueio de campo imutavel | Alta |
+| PROJ-028 | Tentar alterar o campo createdAt do projeto | API disponivel, token JWT valido e projeto existente | Payload com `createdAt` | Enviar `PATCH /projects/{projectId}` tentando alterar `createdAt` | Retornar `400` com bloqueio de campo imutavel | Alta |
+| PROJ-029 | Atualizar projeto para um name ja existente em outro projeto | API disponivel, token JWT valido e dois projetos existentes | `name` de outro projeto | Enviar `PATCH /projects/{projectId}` com nome duplicado | Retornar `409` com mensagem de duplicidade | Alta |
 
 # Casos de Teste - Test Cases
 

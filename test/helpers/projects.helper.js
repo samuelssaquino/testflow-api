@@ -42,9 +42,22 @@ const getProjectById = async (projectId, headers = {}) => {
   return request;
 };
 
+const patchProject = async (projectId, payload, headers = {}) => {
+  const request = buildRequester()
+    .patch(`/projects/${projectId}`)
+    .set("Accept", "application/json");
+
+  Object.entries(headers).forEach(([key, value]) => {
+    request.set(key, value);
+  });
+
+  return request.send(payload);
+};
+
 module.exports = {
   createAuthenticatedHeaders,
   postProject,
   getProjects,
   getProjectById,
+  patchProject,
 };
