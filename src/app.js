@@ -51,7 +51,8 @@ const swaggerUiOptions = {
         "/test-cases/{testCaseId}": 4,
         "/test-runs": 5,
         "/bugs": 6,
-        "/reports/execution-summary": 7,
+        "/bugs/{bugId}": 7,
+        "/reports/execution-summary": 8,
       };
       const methodOrder = {
         post: 0,

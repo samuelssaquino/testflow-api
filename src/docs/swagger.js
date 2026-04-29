@@ -446,6 +446,43 @@ const options = {
             },
           },
         },
+        UpdateBugInput: {
+          type: "object",
+          properties: {
+            title: {
+              type: "string",
+              minLength: 3,
+              example: "Erro ao autenticar usuario com credenciais validas em dispositivos moveis",
+            },
+            description: {
+              type: "string",
+              example: "O fluxo falha apenas em navegadores moveis ao submeter o formulario",
+            },
+            severity: {
+              type: "string",
+              enum: ["low", "medium", "high", "critical"],
+              example: "medium",
+            },
+            priority: {
+              type: "string",
+              enum: ["low", "medium", "high", "critical"],
+              example: "high",
+            },
+            status: {
+              type: "string",
+              enum: ["open", "in_progress", "resolved", "closed"],
+              example: "in_progress",
+            },
+            evidence: {
+              type: "string",
+              example: "https://example.com/evidencia-atualizada.png",
+            },
+            stepsToReproduce: {
+              type: "string",
+              example: "Acessar login em dispositivo movel, preencher dados validos e clicar em entrar",
+            },
+          },
+        },
         Bug: {
           type: "object",
           properties: {

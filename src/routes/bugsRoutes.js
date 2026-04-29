@@ -66,4 +66,70 @@ const router = express.Router();
  */
 router.post("/bugs", authenticateToken, bugsController.createBug);
 
+/**
+ * @swagger
+ * /bugs/{bugId}:
+ *   patch:
+ *     summary: Atualiza parcialmente um bug pelo id
+ *     tags:
+ *       - Bugs
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: bugId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador unico do bug
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateBugInput'
+ *           examples:
+ *             default:
+ *               value:
+ *                 title: Erro ao autenticar usuario com credenciais validas em dispositivos moveis
+ *                 description: O fluxo falha apenas em navegadores moveis ao submeter o formulario
+ *                 severity: medium
+ *                 priority: high
+ *                 status: in_progress
+ *                 evidence: https://example.com/evidencia-atualizada.png
+ *                 stepsToReproduce: Acessar login em dispositivo movel, preencher dados validos e clicar em entrar
+ *     responses:
+ *       200:
+ *         description: Bug atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Bug'
+ *       400:
+ *         description: Dados invalidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         description: Token ausente ou invalido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       404:
+ *         description: Bug nao encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       409:
+ *         description: Bug duplicado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+router.patch("/bugs/:bugId", authenticateToken, bugsController.updateBug);
+
 module.exports = router;

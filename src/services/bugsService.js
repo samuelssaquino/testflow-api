@@ -7,6 +7,8 @@ const VALID_LEVELS = ["low", "medium", "high", "critical"];
 const VALID_STATUSES = ["open", "in_progress", "resolved", "closed"];
 const bugs = [];
 
+const findBugById = (bugId) => bugs.find((bug) => bug.id === bugId);
+
 const normalizeOptionalText = (value) => {
   if (value === undefined) {
     return "";
@@ -190,11 +192,175 @@ const createBug = (payload) => {
   return { bug };
 };
 
+const getBugById = (bugId) => {
+  const bug = findBugById(bugId);
+
+  if (!bug) {
+    return {
+      error: {
+        statusCode: 404,
+        message: "Bug not found",
+      },
+    };
+  }
+
+  return { bug };
+};
+
 const listBugs = () => {
   return [...bugs];
 };
 
+const updateBug = (bugId, payload) => {
+  const lookup = getBugById(bugId);
+
+  if (lookup.error) {
+    return { error: lookup.error };
+  }
+
+  const immutableFields = ["id", "testRunId", "testCaseId", "createdAt"];
+  const blockedField = immutableFields.find((field) =>
+    Object.prototype.hasOwnProperty.call(payload, field)
+  );
+
+  if (blockedField) {
+    return {
+      error: {
+        statusCode: 400,
+        message: `${blockedField} cannot be updated`,
+      },
+    };
+  }
+
+  const bug = lookup.bug;
+
+  if (Object.prototype.hasOwnProperty.call(payload, "title")) {
+    if (typeof payload.title !== "string" || !payload.title.trim()) {
+      return {
+        error: {
+          statusCode: 400,
+          message: "Bug title is required",
+        },
+      };
+    }
+
+    const normalizedTitle = payload.title.trim();
+
+    if (normalizedTitle.length < 3) {
+      return {
+        error: {
+          statusCode: 400,
+          message: "Bug title must be at least 3 characters long",
+        },
+      };
+    }
+
+    const duplicatedBug = bugs.find(
+      (item) =>
+        item.id !== bugId &&
+        item.testRunId === bug.testRunId &&
+        item.testCaseId === bug.testCaseId &&
+        item.title.toLowerCase() === normalizedTitle.toLowerCase()
+    );
+
+    if (duplicatedBug) {
+      return {
+        error: {
+          statusCode: 409,
+          message: "Bug title already exists for this test run and test case",
+        },
+      };
+    }
+
+    bug.title = normalizedTitle;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(payload, "description")) {
+    if (typeof payload.description !== "string" || !payload.description.trim()) {
+      return {
+        error: {
+          statusCode: 400,
+          message: "Bug description is required",
+        },
+      };
+    }
+
+    bug.description = payload.description.trim();
+  }
+
+  if (Object.prototype.hasOwnProperty.call(payload, "severity")) {
+    if (!VALID_LEVELS.includes(payload.severity)) {
+      return {
+        error: {
+          statusCode: 400,
+          message: "Severity must be one of: low, medium, high, critical",
+        },
+      };
+    }
+
+    bug.severity = payload.severity;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(payload, "priority")) {
+    if (!VALID_LEVELS.includes(payload.priority)) {
+      return {
+        error: {
+          statusCode: 400,
+          message: "Priority must be one of: low, medium, high, critical",
+        },
+      };
+    }
+
+    bug.priority = payload.priority;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(payload, "status")) {
+    if (!VALID_STATUSES.includes(payload.status)) {
+      return {
+        error: {
+          statusCode: 400,
+          message: "Status must be one of: open, in_progress, resolved, closed",
+        },
+      };
+    }
+
+    bug.status = payload.status;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(payload, "evidence")) {
+    if (typeof payload.evidence !== "string") {
+      return {
+        error: {
+          statusCode: 400,
+          message: "Evidence must be a string",
+        },
+      };
+    }
+
+    bug.evidence = payload.evidence.trim();
+  }
+
+  if (Object.prototype.hasOwnProperty.call(payload, "stepsToReproduce")) {
+    if (typeof payload.stepsToReproduce !== "string") {
+      return {
+        error: {
+          statusCode: 400,
+          message: "Steps to reproduce must be a string",
+        },
+      };
+    }
+
+    bug.stepsToReproduce = payload.stepsToReproduce.trim();
+  }
+
+  bug.updatedAt = new Date().toISOString();
+
+  return { bug };
+};
+
 module.exports = {
   createBug,
+  getBugById,
   listBugs,
+  updateBug,
 };

@@ -217,6 +217,7 @@ Para regras mais detalhadas do módulo de execuções de teste, consulte [docs/t
 ### Bugs
 
 - `POST /bugs`
+- `PATCH /bugs/{bugId}`
 
 O endpoint de bugs também é protegido por JWT e exige `Authorization: Bearer <token>`.
 
@@ -232,7 +233,6 @@ Para regras mais detalhadas do módulo de relatórios, consulte [docs/reports.md
 
 ## Endpoints planejados
 
-- `PATCH /bugs/{bugId}` - Atualiza parcialmente um bug existente
 - `DELETE /test-cases/{testCaseId}` - Remove um caso de teste existente
 
 Conforme novos endpoints forem implementados, eles devem sair da seção de planejados e passar para a seção de implementados.
