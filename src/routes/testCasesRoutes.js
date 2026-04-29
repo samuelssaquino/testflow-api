@@ -149,11 +149,52 @@ router.get("/test-cases", authenticateToken, testCasesController.listTestCases);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
+ *   delete:
+ *     summary: Remove um caso de teste pelo id
+ *     tags:
+ *       - Test Cases
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: testCaseId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador unico do caso de teste
+ *     responses:
+ *       200:
+ *         description: Caso de teste removido com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Test case deleted successfully
+ *       401:
+ *         description: Token ausente ou invalido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       404:
+ *         description: Caso de teste nao encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 router.patch(
   "/test-cases/:testCaseId",
   authenticateToken,
   testCasesController.updateTestCase
+);
+router.delete(
+  "/test-cases/:testCaseId",
+  authenticateToken,
+  testCasesController.deleteTestCase
 );
 
 module.exports = router;

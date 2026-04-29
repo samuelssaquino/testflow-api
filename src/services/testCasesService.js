@@ -340,9 +340,29 @@ const updateTestCase = (testCaseId, payload) => {
   return { testCase };
 };
 
+const deleteTestCase = (testCaseId) => {
+  const testCaseIndex = testCases.findIndex((item) => item.id === testCaseId);
+
+  if (testCaseIndex === -1) {
+    return {
+      error: {
+        statusCode: 404,
+        message: "Test case not found",
+      },
+    };
+  }
+
+  testCases.splice(testCaseIndex, 1);
+
+  return {
+    message: "Test case deleted successfully",
+  };
+};
+
 module.exports = {
   createTestCase,
   listTestCases,
   getTestCaseById,
   updateTestCase,
+  deleteTestCase,
 };

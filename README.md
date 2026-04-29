@@ -200,6 +200,7 @@ Para regras mais detalhadas do módulo de projetos, consulte [docs/projects.md](
 - `POST /test-cases`
 - `GET /test-cases`
 - `PATCH /test-cases/{testCaseId}`
+- `DELETE /test-cases/{testCaseId}`
 
 Os endpoints de casos de teste também são protegidos por JWT e exigem `Authorization: Bearer <token>`.
 
@@ -232,8 +233,6 @@ O endpoint de relatórios também é protegido por JWT e exige `Authorization: B
 Para regras mais detalhadas do módulo de relatórios, consulte [docs/reports.md](/D:/MENTORIAJULIO/PROJETOS/testflow-api/docs/reports.md).
 
 ## Endpoints planejados
-
-- `DELETE /test-cases/{testCaseId}` - Remove um caso de teste existente
 
 Conforme novos endpoints forem implementados, eles devem sair da seção de planejados e passar para a seção de implementados.
 

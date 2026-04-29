@@ -68,3 +68,20 @@ Este documento consolida as regras de negocio do modulo de casos de teste da Tes
 - Se o novo `title` ja existir em outro caso de teste do mesmo `projectId`, deve retornar `409`.
 - O campo `updatedAt` deve ser atualizado.
 - O endpoint deve retornar o caso de teste atualizado.
+
+## DELETE /test-cases/{testCaseId}
+
+- Endpoint protegido por JWT.
+- Exige `Authorization: Bearer <token>`.
+- `testCaseId` e obrigatorio no path.
+- Deve buscar o caso de teste pelo `id` informado.
+- Se o caso de teste nao existir, deve retornar `404`.
+- Se o caso de teste existir, deve ser removido do armazenamento em memoria.
+- Apos removido, o caso de teste nao deve aparecer em `GET /test-cases`.
+- Apos removido, o caso de teste nao deve poder ser usado em novas execucoes de teste.
+- A operacao nao deve alterar projetos existentes.
+- A operacao nao deve alterar test runs ja existentes.
+- A operacao nao deve alterar bugs ja existentes.
+- Quando a exclusao for concluida com sucesso, deve retornar status `200`.
+- A resposta de sucesso deve retornar:
+  - `message: "Test case deleted successfully"`
