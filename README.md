@@ -101,6 +101,8 @@ Documentação de QA:
 - [Plano de Testes](./qa/test-plan.md)
 - [Casos de Teste](./qa/test-cases.md)
 - [Relatório de Testes](./qa/test-report.md)
+- [Testes Exploratórios](./qa/exploratory-testing/)
+- [Relatório de Bugs Exploratórios - Projects](./qa/exploratory-testing/projects-bug-report.md)
 
 ## Endpoints implementados
 
@@ -179,7 +181,12 @@ testflow-api/
 |   +-- test-cases.md
 |   +-- test-runs.md
 +-- qa/
+|   +-- exploratory-testing/
+|   |   +-- projects-bug-report.md
+|   |   +-- projects-test-charter.md
+|   |   +-- test-runs-test-charter.md
 |   +-- reports/
+|   |   +-- mochawesome-report.html
 |   +-- test-cases.md
 |   +-- test-plan.md
 |   +-- test-report.md
@@ -194,30 +201,13 @@ testflow-api/
 |   +-- server.js
 +-- test/
 |   +-- auth/
-|   |   +-- login.test.js
 |   +-- bugs/
-|   |   +-- bugs.test.js
-|   +-- fixtures/
-|   |   +-- auth.fixture.js
-|   |   +-- bugs.fixture.js
-|   |   +-- projects.fixture.js
-|   |   +-- test-cases.fixture.js
-|   |   +-- test-runs.fixture.js
-|   +-- helpers/
-|   |   +-- auth.helper.js
-|   |   +-- bugs.helper.js
-|   |   +-- projects.helper.js
-|   |   +-- reports.helper.js
-|   |   +-- test-cases.helper.js
-|   |   +-- test-runs.helper.js
 |   +-- projects/
-|   |   +-- projects.test.js
-|   +-- reports/
-|   |   +-- execution-summary.test.js
 |   +-- test-cases/
-|   |   +-- test-cases.test.js
 |   +-- test-runs/
-|   |   +-- test-runs.test.js
+|   +-- reports/
+|   +-- helpers/
+|   +-- fixtures/
 +-- .env.example
 +-- package.json
 +-- README.md

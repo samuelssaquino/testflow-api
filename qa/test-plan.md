@@ -31,6 +31,7 @@ Definir a abordagem inicial de testes automatizados funcionais da TestFlow API, 
 - Reutilizar `helpers` e `fixtures` para evitar duplicação
 - Reutilizar autenticação e criação de dados de apoio sempre que possível
 - Gerar relatório em `Mochawesome` para apoiar evidências de execução
+- Complementar a cobertura com registros de testes exploratórios quando houver sessões documentadas em [`qa/exploratory-testing/`](./exploratory-testing/)
 
 ## Tipos de teste
 
